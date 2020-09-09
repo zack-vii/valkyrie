@@ -1,0 +1,7 @@
+Makefile
+bin/
+src/Makefile
+src/moc/
+src/obj/
+src/qrc_icons.cpp
+src/utils/vk_defines.h
