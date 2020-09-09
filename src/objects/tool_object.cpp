@@ -52,8 +52,6 @@ stopProcess()
 #include <QString>
 #include <QStringList>
 
-#include <unistd.h>
-
 #if 1
 //#include "config.h"
 #include "objects/valkyrie_object.h"

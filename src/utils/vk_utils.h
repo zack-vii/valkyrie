@@ -21,6 +21,7 @@
 #define __VK_UTILS_H
 
 #include <stdio.h>          // printf and friends
+#include <unistd.h>
 #include <iostream>
 
 #include <QString>
