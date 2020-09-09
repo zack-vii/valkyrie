@@ -186,7 +186,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
    while ( !done ) {
       const char* origOptString = NULL;
       const char* longArg = NULL;
-      int shorty = 0;
+      // int shorty = 0; // unused
 
       while ( !con->os->nextCharArg &&
               con->os->next == con->os->argc &&
@@ -204,8 +204,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
       // process next long option
       if ( !con->os->nextCharArg ) {
          char* localOptString, * optString;
-         int thisopt;
-         thisopt = con->os->next;
+         // int thisopt = con->os->next; // unused
 
          if ( con->os->argv != NULL ) {
             origOptString = con->os->argv[con->os->next++];
@@ -300,7 +299,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
             con->os->nextCharArg = origOptString + 1;
          }
          else {
-            shorty = 0;
+            //shorty = 0;
          }
       }
 
@@ -315,7 +314,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
             return PERROR_BADOPT;
          }
 
-         shorty = 1;
+         //shorty = 1;
 
          origOptString++;
 
