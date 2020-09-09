@@ -86,6 +86,7 @@ static ElemTypeMap setupElemTypeMap()
    etmap["skaux"]            = VG_ELEM::SKAUX;
    etmap["sframe"]           = VG_ELEM::SFRAME;
    etmap["rawtext"]          = VG_ELEM::RAWTEXT;
+   etmap["fatal_signal"]     = VG_ELEM::FATAL_SIGNAL;
    return etmap;
 }
 
