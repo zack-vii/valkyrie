@@ -36,10 +36,10 @@ class CkWidget : public OptionWidget
 public:
    CkWidget( QWidget* parent, VkOption* vkopt, bool mklabel );
    ~CkWidget();
-   
+
 signals:
    void changed( bool );
-   
+
 private slots:
    void ckChanged( bool );
    void update( const QString& txt );

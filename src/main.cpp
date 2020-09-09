@@ -48,19 +48,19 @@ int main( int argc, char* argv[] )
    // ------------------------------------------------------------
    // Create all VkObjects: Vk[ Vg[ Tools[] ] ]
    Valkyrie valkyrie;
-   
+
    // ------------------------------------------------------------
    // Start turning the engine over
    app = new QApplication( argc, argv );
-   
+
    // ------------------------------------------------------------
    // Setup application config settings
    QCoreApplication::setOrganizationName( "OpenWorks" );
    QCoreApplication::setOrganizationDomain( "openworks.co.uk" );
    QCoreApplication::setApplicationName( "Valkyrie" );
-   
+
    QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) );
-   
+
    bool cfg_ok = VkCfgProj::createConfig( &valkyrie );
    if ( !cfg_ok || vkCfgProj == NULL ) {
       VK_DEBUG( "Failed to initialise project config properly.  "
@@ -87,31 +87,31 @@ int main( int argc, char* argv[] )
    if ( argc > 1 ) {
       // parse cmdline args, overwrite vkCfgProj with any options found.
       bool show_help_and_exit;
-      
+
       if ( ! parseCmdArgs( argc, argv, &valkyrie, show_help_and_exit ) ) {
          exit_status = EXIT_FAILURE;
          goto cleanup_and_exit;
       }
-      
+
       if ( show_help_and_exit ) {
          goto cleanup_and_exit;
       }
    }
-   
+
    // save the working config we've gotten so far.
    vkCfgProj->sync();
-   
-   
-   
+
+
+
    // ------------------------------------------------------------
    // Start up the gui
    vkWin = new MainWindow( &valkyrie );
-   
+
    if ( 0 && vkCfgProj->value(
            valkyrie.getOption( VALKYRIE::BINARY )->configKey() ).toString().isEmpty() ) {
       vkWin->openOptions();
    }
-   
+
    vkWin->showToolView( VGTOOL::ID_MEMCHECK );
    vkWin->show();
 
@@ -120,14 +120,14 @@ int main( int argc, char* argv[] )
    if ( startProcess != VGTOOL::PROC_NONE ) {
       vkWin->runTool( startProcess );
    }
-   
+
    qApp->processEvents();
-   
+
    // ------------------------------------------------------------
    // Hand over to QtApp.
    exit_status = app->exec();
-   
-   
+
+
 cleanup_and_exit:
 
    // ------------------------------------------------------------
@@ -144,6 +144,6 @@ cleanup_and_exit:
    if ( app ) {
       delete app;
    }
-   
+
    return exit_status;
 }

@@ -42,15 +42,15 @@ class VkLogPoller : public QObject
 public:
    VkLogPoller( QObject* parent );
    ~VkLogPoller();
-   
+
    void start( int interval = 100 ); // msec
    void stop();
    bool isActive();
    int  interval();
-   
+
 signals:
    void logUpdated();
-   
+
 private:
    QTimer* timer;
 };

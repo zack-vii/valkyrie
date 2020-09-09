@@ -45,7 +45,7 @@ typedef QHash<int, OptionWidget*>::iterator It_OptWidgHash;
 class VkOptionsPage : public QWidget
 {
    Q_OBJECT
-   
+
 public:
    VkOptionsPage( VkObject* obj );
    ~VkOptionsPage();
@@ -57,25 +57,25 @@ public:
    bool isModified() { return m_mod; }
 
    static QFrame* sep( QWidget* parent );
-   
+
 signals:
    void modified();
    void apply();
-   
+
 protected slots:
    void updateEditList( bool, OptionWidget* );
    bool checkOption( OptionWidget* opt );
 
 protected:
    OptionWidget* insertOptionWidget( int optid, QWidget* parent, bool mklabel );
-      
+
 protected:
    bool m_mod;
    int lineHeight;
-   
+
    QVBoxLayout* pageTopVLayout;
    VkObject* m_vkObj;
-   
+
    QHash<int, OptionWidget*> m_itemList;
    QList<OptionWidget*> m_editList;
 

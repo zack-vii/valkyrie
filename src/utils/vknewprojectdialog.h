@@ -33,14 +33,14 @@ class VkNewProjectDialog : public QDialog
 public:
     VkNewProjectDialog( QWidget *parent = 0 );
 
-    
+
     QString getProjectPath();
-    
+
  private slots:
     void accept();
     void browseDir();
     void checkInput();
-    
+
  private:
     QLineEdit* edit_name;
     QLineEdit* edit_dir;

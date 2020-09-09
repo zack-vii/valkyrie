@@ -37,12 +37,12 @@ CkWidget::CkWidget( QWidget* parent, VkOption* vkopt, bool mklabel )
 
    m_cbox = new QCheckBox( m_opt->shortHelp, parent );
    m_widg = m_cbox;
-   
+
    bool cfgChecked = strToBool( m_initialValue );
    m_cbox->setChecked( cfgChecked );
    connect( m_cbox, SIGNAL( toggled( bool ) ),
             this,     SLOT( ckChanged( bool ) ) );
-            
+
    // not added if the url is empty
    ContextHelp::addHelp( m_widg, m_opt->urlAddress );
 }

@@ -42,10 +42,10 @@ VkOptionsPage::VkOptionsPage( VkObject* obj )
    : QWidget(), m_vkObj( obj )
 {
    this->setObjectName( obj->objectName() + "OptPage" );
-   
+
    m_mod      = false;
    lineHeight = fontMetrics().height();
-   
+
    pageTopVLayout = new QVBoxLayout( this );
    pageTopVLayout->setObjectName( QString::fromUtf8( "pageTopVLayout" ) );
    pageTopVLayout->setContentsMargins( 0, 0, 0, 0 );
@@ -58,7 +58,7 @@ VkOptionsPage::VkOptionsPage( VkObject* obj )
 VkOptionsPage::~VkOptionsPage()
 {
    m_editList.clear();
-   
+
    // cleanup all option widgets
    foreach( OptionWidget * optw, m_itemList ) {
       delete optw;
@@ -110,7 +110,7 @@ void VkOptionsPage::updateEditList( bool edstate, OptionWidget* optw )
 {
    // check this widget isn't already in the list
    int indx = m_editList.indexOf( optw );
-   
+
    // widget has been edited and is not already in the list
    if ( edstate == true && indx == -1 ) {
       m_editList.append( optw );
@@ -119,7 +119,7 @@ void VkOptionsPage::updateEditList( bool edstate, OptionWidget* optw )
       // widget was reset and is already in the list
       m_editList.removeAt( indx );
    }
-   
+
    m_mod = m_editList.isEmpty() ? false : true;
    emit modified();
 }
@@ -133,14 +133,14 @@ void VkOptionsPage::rejectEdits()
    if ( m_editList.count() != 0 ) {
       // first copy the list: the list is managed by this->updateEditList().
       QList<OptionWidget*> tmpList = m_editList;
-      
+
       // now remove all the items from m_editList:
       // signal is emitted for by each optw, calls this->updateEditList()
       foreach ( OptionWidget* opt, tmpList ) {
          opt->cancelEdit();
       }
    }
-   
+
    vk_assert( m_mod == false );
    vk_assert( m_editList.isEmpty() == true );
 }
@@ -155,7 +155,7 @@ bool VkOptionsPage::applyEdits()
    if ( m_editList.isEmpty() && m_mod == false ) {
       return true;
    }
-      
+
    // verify all edited entries before committing any.
    // TODO: shouldn't need to do this anymore, as we now verify upon
    // edit completion. But keeping it in for now.
@@ -164,7 +164,7 @@ bool VkOptionsPage::applyEdits()
          return false;
       }
    }
-   
+
    // all edited entries ok: commit them all
    QList<OptionWidget*> tmpList;
    foreach( OptionWidget* optw, m_editList ) {
@@ -172,12 +172,12 @@ bool VkOptionsPage::applyEdits()
       optw->saveEdit();
       tmpList.append( optw );
    }
-   
+
    // now remove all the saved items from m_editList
    foreach( OptionWidget* optw, tmpList ) {
       updateEditList( false, optw );
    }
-   
+
    vk_assert( m_mod == false );
    vk_assert( m_editList.isEmpty() == true );
    return true;
@@ -195,7 +195,7 @@ bool VkOptionsPage::checkOption( OptionWidget* opt )
 
    QString argval = opt->currValue();
    int errval = m_vkObj->checkOptArg( opt->id(), argval );
-   
+
    if ( errval != PARSED_OK ) {
       vkError( this, "Invalid Entry", "%s:<br><i>%s</i>",
                parseErrString( errval ),
@@ -204,12 +204,12 @@ bool VkOptionsPage::checkOption( OptionWidget* opt )
       opt->cancelEdit();
       return false;
    }
-   
+
    // argval may have been altered by checkOptArg(), e.g. a file path
    if ( argval != opt->currValue() ) {
       opt->setValue( argval );
    }
-   
+
    return true;
 }
 
@@ -221,7 +221,7 @@ OptionWidget* VkOptionsPage::insertOptionWidget( int optid,
 {
    OptionWidget* optWidget = 0;
    VkOption* opt = m_vkObj->getOption( optid );
-   
+
    switch ( opt->widgType ) {
    case VkOPT::WDG_NONE:
       vk_assert_never_reached();
@@ -245,12 +245,12 @@ OptionWidget* VkOptionsPage::insertOptionWidget( int optid,
       break;
    case VkOPT::WDG_SPINBOX: {
       SpWidget* spinw = new SpWidget( parent, opt, mklabel, 1 );
-      
+
       bool ok;
       int step = ( opt->argType == VkOPT::ARG_PWR2 ) ? 0 : 1;
       QString val = vkCfgProj->value( opt->configKey() ).toString();
       int ival = val.toInt( &ok );
-      
+
       if ( !ok ) {
          cerr << "Error in VkOptionsPage::insertOptionWidget( " << optid << " ): "
               << "VkOPT::WDG_SPINBOX: bad int conversion from: '"
@@ -258,12 +258,12 @@ OptionWidget* VkOptionsPage::insertOptionWidget( int optid,
          // soldier on...
          ival = 0;
       }
-      
+
       spinw->addSection( opt->possValues[0].toInt(),  // min
                          opt->possValues[1].toInt(),  // max
                          ival,                        // default
                          step );                      // step (if 0: pwr2)
-                         
+
       optWidget = ( OptionWidget* )spinw;
    }
    break;
@@ -280,7 +280,7 @@ OptionWidget* VkOptionsPage::insertOptionWidget( int optid,
    // ------------------------------------------------------------
    // Insert into the itemlist
    m_itemList.insert( optid, optWidget );
-   
+
    //   vk_assert( optWidget != 0 );
    return optWidget;
 }

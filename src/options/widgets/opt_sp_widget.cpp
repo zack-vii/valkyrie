@@ -38,7 +38,7 @@ SpWidget::SpWidget( QWidget* parent, VkOption* vkopt,
 
    m_intspin = new IntSpin( parent );
    m_widg    = m_intspin;
-   
+
    m_numSections = num_sections;
    connect( m_intspin, SIGNAL( valueChanged( const QString& ) ),
             this,        SLOT( setCurrValue( const QString& ) ) );
@@ -73,49 +73,49 @@ void SpWidget::addSection( int min, int max, int defval,
       }
       else {
          int i;
-         
+
          for ( i = 1; i <= MAX_INT; i *= 2 ) {
             if ( i == min ) {
                break;
             }
-            
+
             if ( i > min ) {
                cerr << "FIXME! Bad MIN value(not pow2) for SpinWidget" << endl;
                min = i / 2;
                break;
             }
          }
-         
+
          if ( min > i ) {
             min = i;   // just in case
          }
       }
-      
+
       if ( max < 1 ) {
          cerr << "FIXME! Bad MAX value(<1) for SpinWidget" << endl;
          max = 1;
       }
       else {
          int i;
-         
+
          for ( i = 1; i <= MAX_INT; i *= 2 ) {
             if ( i == max ) {
                break;
             }
-            
+
             if ( i > max ) {
                cerr << "FIXME! Bad MAX value(not pow2) for SpinWidget" << endl;
                max = i / 2;
                break;
             }
          }
-         
+
          if ( max > i ) {
             max = i;   // just in case
          }
       }
    }
-   
+
    m_intspin->addSection( min, max, defval, step, sep_char );
 }
 
@@ -142,14 +142,14 @@ void SpWidget::update( const QString& txt )
 QHBoxLayout* SpWidget::hlayout()
 {
    vk_assert( m_wLabel != 0 );
-   
+
    //   m_hBox = new QHBoxLayout( 6 );
    m_hBox = new QHBoxLayout();
    m_hBox->addWidget( m_wLabel );
    m_hBox->addWidget( m_widg );
    m_hBox->setStretchFactor( m_wLabel, 10 );
    m_hBox->setStretchFactor( m_widg,    1 );
-   
+
    return m_hBox;
 }
 
@@ -171,7 +171,7 @@ void IntSpin::addSection( int min, int max, int defval, int step, QString ) //se
       step = 1;
       use_pwr2 = true;
    }
-   
+
    this->setRange( min, max );
    this->setSingleStep( step );
    this->setValue( defval );
@@ -183,13 +183,13 @@ void IntSpin::stepBy( int step )
    if ( !use_pwr2 ) {
       return QSpinBox::stepBy( step );
    }
-   
+
    int lastVal = this->value();
    vk_assert( lastVal >= 1 );
-   
+
    // nextVal is power2 of lastVal
    int nextVal = ( double )lastVal * pow( 2.0, ( double )step );
-   
+
    // make the step (- or +) to nextVal
    QSpinBox::stepBy( nextVal - lastVal );
 }

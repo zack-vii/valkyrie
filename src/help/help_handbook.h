@@ -37,14 +37,14 @@ class HandBook : public QMainWindow
 public:
    HandBook( QWidget* parent = 0 );
    ~HandBook();
-   
+
 public slots:
    void openUrl( const QString& url );
    void showYourself();
-   
+
 protected:
    void closeEvent( QCloseEvent* ce );
-   
+
 private slots:
    void sourceChanged( const QUrl& url );
    void openFile();
@@ -52,13 +52,13 @@ private slots:
    void bookmarkChosen( QAction* act );
    void bookmarkHighlighted( QAction* act );
    void addBookmark();
-   
+
 private:
    void mkMenuToolBars();
    void save();
    void readHistory();
    void readBookmarks();
-   
+
 private:
    QString       caption;
    QTextBrowser* browser;
@@ -67,7 +67,7 @@ private:
    QStatusBar*   helpStatusBar;
    QMenu*        bookmarkMenu;
    QMenu*        historyMenu;
-   
+
    int max_history;
    int max_bookmarks;
 };

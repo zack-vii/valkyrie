@@ -36,7 +36,7 @@ class HelgrindView : public ToolView
 public:
    HelgrindView( QWidget* parent );
    ~HelgrindView();
-   
+
    VgLogView* createVgLogView();
 
 public slots:

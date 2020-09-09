@@ -58,25 +58,25 @@ class MsgBox : public QDialog
 public:
    enum Icon { Query, Info, Error };
    enum rVal { vkYes = 0, vkNo = 1, vkCancel = 2 };
-   
+
    MsgBox( QWidget* parent, Icon icon, QString msg,
            const QString& hdr = QString::null, int num_buttons = 1 );
    ~MsgBox();
-   
+
    void setButtonTexts( const QStringList& texts );
-   
+
 protected:
    void closeEvent( QCloseEvent* );
    void keyPressEvent( QKeyEvent* );
-   
+
 private slots:
    void pbClicked();
-   
+
 private:
    int button[3];               /* button types           */
    int escButton;               /* escape button (index)  */
    int numButtons;              /* number of buttons      */
-   
+
    QLabel* msgLabel;            /* label holding msg text */
    QLabel* iconLabel;           /* label holding any icon */
    QPushButton* pb[3];          /* buttons                */

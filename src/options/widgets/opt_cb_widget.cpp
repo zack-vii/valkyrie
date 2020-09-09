@@ -42,23 +42,23 @@ CbWidget::CbWidget( QWidget* parent, VkOption* vkopt, bool mklabel )
    m_currIdx = 0;
    m_combo   = new QComboBox( parent );   // true
    m_widg    = m_combo;
-   
+
    m_combo->setInsertPolicy( QComboBox::NoInsert );
    m_combo->setAutoCompletion( true );
    m_combo->addItems( m_opt->possValues );
    m_combo->setCurrentIndex( m_currIdx );
-   
+
    for ( int i = 0; i < m_combo->count(); i++ ) {
       if ( m_initialValue == m_combo->itemText( i ) ) {
          m_currIdx = i;
          break;
       }
    }
-   
+
    m_combo->setCurrentIndex( m_currIdx );
    connect( m_combo, SIGNAL( activated( const QString& ) ),
             this,      SLOT( update( const QString& ) ) );
-            
+
    // not added if the url is empty
    ContextHelp::addHelp( m_widg, m_opt->urlAddress );
 }
@@ -88,7 +88,7 @@ void CbWidget::update( const QString& txt )
          break;
       }
    }
-   
+
    if ( !found ) {
       // we didn't find the string the user typed in
       m_combo->setCurrentIndex( m_currIdx );
@@ -103,12 +103,12 @@ void CbWidget::update( const QString& txt )
 QHBoxLayout* CbWidget::hlayout()
 {
    vk_assert( m_wLabel != 0 );
-   
+
    m_hBox = new QHBoxLayout();
    m_hBox->addWidget( m_wLabel );
    m_hBox->addWidget( m_widg );
    m_hBox->setStretchFactor( m_wLabel, 6 );
    m_hBox->setStretchFactor( m_widg,   2 );
-   
+
    return m_hBox;
 }

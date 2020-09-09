@@ -35,7 +35,7 @@ class SpWidget : public OptionWidget
 public:
    SpWidget( QWidget* parent, VkOption* vkopt, bool mklabel, int num_sections );
    ~SpWidget();
-   
+
    void addSection( int min, int max, int defval = 0,
                     int step = 1, QString sep_char = " : " );
    QHBoxLayout* hlayout();
@@ -55,10 +55,10 @@ class IntSpin : public QSpinBox
 {
 public:
    IntSpin( QWidget* parent );
-   
+
    void addSection( int min, int max, int defval,
                     int step, QString sep_char );
-                    
+
 private:
    void stepBy( int step );
    bool use_pwr2;

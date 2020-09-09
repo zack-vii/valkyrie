@@ -50,7 +50,7 @@ void MemcheckOptionsPage::setupOptions()
    group1->setObjectName( QString::fromUtf8( "MemcheckOptionsPage_group1" ) );
    ContextHelp::addHelp( group1, urlMemcheck::optsMC );
    pageTopVLayout->addWidget( group1 );
-   
+
    insertOptionWidget( MEMCHECK::LEAK_CHECK, group1, true );    // combobox
    insertOptionWidget( MEMCHECK::SHOW_REACH, group1, false );   // checkbox
    //   insertOptionWidget( MEMCHECK::UNDEF_VAL,  group1, false );   // checkbox
@@ -60,36 +60,36 @@ void MemcheckOptionsPage::setupOptions()
    insertOptionWidget( MEMCHECK::LEAK_RES,   group1, true );    // combobox
    insertOptionWidget( MEMCHECK::FREELIST,   group1, true );    // ledit
    insertOptionWidget( MEMCHECK::ALIGNMENT,  group1, true );    // spinbox
-   
+
    // grid layout for group1
    int i = 0;
    QGridLayout* grid1 = new QGridLayout( group1 );
    grid1->setRowMinimumHeight( i++, lineHeight / 2 ); // blank top row
    //   grid1->setColStretch( 1, 10 );         // push widgets to the left
-   
+
    grid1->addLayout( m_itemList[MEMCHECK::LEAK_CHECK]->hlayout(), i++, 0 );
    grid1->addWidget( m_itemList[MEMCHECK::SHOW_REACH]->widget(),  i++, 0 );
    //grid1->addWidget( m_itemList[MEMCHECK::UNDEF_VAL]->widget(),   i++, 0 );
-   
+
    grid1->addWidget( sep( group1 ), i++, 0, 1, 2 );
    grid1->addWidget( m_itemList[MEMCHECK::TRACK_ORI]->widget(),   i++, 0 );
    grid1->addWidget( m_itemList[MEMCHECK::PARTIAL]->widget(),     i++, 0 );
    grid1->addWidget( m_itemList[MEMCHECK::GCC_296]->widget(),     i++, 0 );
-   
+
    grid1->addWidget( sep( group1 ), i++, 0, 1, 2 );
    grid1->addLayout( m_itemList[MEMCHECK::LEAK_RES]->hlayout(),    i++, 0 );
    grid1->addLayout( m_itemList[MEMCHECK::FREELIST]->hlayout(),    i++, 0 );
    grid1->addLayout( m_itemList[MEMCHECK::ALIGNMENT ]->hlayout(),  i++, 0 );
-   
+
    pageTopVLayout->addStretch( 1 );
-   
-   
+
+
    // ============================================================
    // Disabled Widgets
    /* Valgrind presets and ignores some options when generating xml
       output. (see docs/internals/xml_output.txt) */
    m_itemList[MEMCHECK::LEAK_CHECK]->setEnabled( false );
-   
+
    // sanity checks
    vk_assert( m_itemList.count() <= MEMCHECK::NUM_OPTS );
 }

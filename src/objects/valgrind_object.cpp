@@ -49,7 +49,7 @@ Valgrind::Valgrind()
    : VkObject( "valgrind" )
 {
    initToolObjects();
-   
+
    setupOptions();
 }
 
@@ -88,8 +88,8 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_COMBO
    );
-   
-   
+
+
    // ------------------------------------------------------------
    // common options relevant to all tools
    options.addOpt(
@@ -106,7 +106,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_UINT,
       VkOPT::WDG_SPINBOX
    );
-   
+
    options.addOpt(
       VALGRIND::TRACE_CH,
       this->objectName(),
@@ -121,7 +121,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::SILENT_CH,
       this->objectName(),
@@ -136,7 +136,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::TRACK_FDS,
       this->objectName(),
@@ -151,7 +151,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::TIME_STAMP,
       this->objectName(),
@@ -166,7 +166,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::LOG_FD,
       this->objectName(),
@@ -181,7 +181,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_UINT,
       VkOPT::WDG_SPINBOX
    );
-   
+
    options.addOpt(
       VALGRIND::LOG_FILE,
       this->objectName(),
@@ -196,7 +196,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALGRIND::LOG_SOCKET,
       this->objectName(),
@@ -211,8 +211,8 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_LEDIT
    );
-   
-   
+
+
    // ------------------------------------------------------------
    // uncommon options relevant to all tools
    options.addOpt(
@@ -229,7 +229,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::SIM_HINTS,
       this->objectName(),
@@ -244,7 +244,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_COMBO
    );
-   
+
    options.addOpt(
       VALGRIND::KERN_VAR,
       this->objectName(),
@@ -259,7 +259,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_COMBO
    );
-   
+
    options.addOpt(
       VALGRIND::EM_WARNS,
       this->objectName(),
@@ -274,7 +274,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::SMC_CHECK,
       this->objectName(),
@@ -289,8 +289,8 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_COMBO
    );
-   
-   
+
+
    // ------------------------------------------------------------
    // options relevant to error-reporting tools
    options.addOpt(
@@ -307,7 +307,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::XML_COMMENT,
       this->objectName(),
@@ -322,7 +322,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALGRIND::DEMANGLE,
       this->objectName(),
@@ -337,7 +337,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::NUM_CALLERS,
       this->objectName(),
@@ -352,7 +352,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_UINT,
       VkOPT::WDG_SPINBOX
    );
-   
+
    options.addOpt(
       VALGRIND::ERROR_LIMIT,
       this->objectName(),
@@ -367,7 +367,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::SHOW_BELOW,
       this->objectName(),
@@ -382,8 +382,8 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
-   
+
+
    // ------------------------------------------------------------
    /* list of selected suppression files */
    options.addOpt(
@@ -400,8 +400,8 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_LISTBOX
    );
-   
-   
+
+
    // ------------------------------------------------------------
    // ...
    options.addOpt(
@@ -418,7 +418,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_COMBO
    );
-   
+
    options.addOpt(
       VALGRIND::DB_ATTACH,
       this->objectName(),
@@ -433,7 +433,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_BOOL,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALGRIND::DB_COMMAND,
       this->objectName(),
@@ -448,7 +448,7 @@ void Valgrind::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALGRIND::INPUT_FD,
       this->objectName(),
@@ -458,13 +458,13 @@ void Valgrind::setupOptions()
       "0|1023",
       "0",
       "Input file descriptor:",
-      
+
       "File descriptor for (db) input (0=stdin, 1=stdout, 2=stderr)",
       urlVgCore::inputFd,
       VkOPT::ARG_UINT,
       VkOPT::WDG_SPINBOX
    );
-   
+
    options.addOpt(
       VALGRIND::MAX_SFRAME,
       this->objectName(),
@@ -489,21 +489,21 @@ void Valgrind::setupOptions()
 int Valgrind::checkOptArg( int optid, QString& argval )
 {
    vk_assert( optid >= 0 && optid < VALGRIND::NUM_OPTS );
-   
+
    VkOption* opt = getOption( optid );
    int errval = PARSED_OK;
 
    QChar sep = VkCfg::sepChar();
-   
+
    switch ( (VALGRIND::vgOptId)optid ) {
-   
+
    case VALGRIND::TOOL:
       // Note: gui option disabled, so only reaches here from cmdline
       errval = PERROR_BADOPT;
       vkPrintErr( "Option disabled '--%s'", qPrintable( opt->longFlag ) );
       vkPrintErr( " - Valkyrie currently only supports Memcheck." );
       break;
-      
+
    case VALGRIND::SIM_HINTS:
    case VALGRIND::RUN_LIBC:
    case VALGRIND::NUM_CALLERS:
@@ -528,12 +528,12 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       vkPrintErr( " - Valgrind presets these options for XML output." );
       vkPrintErr( " - See valgrind/docs/internals/xml_output.txt." );
       break;
-      
+
    case VALGRIND::XML_COMMENT:
       // don't wan't xml in comment: escape '<','&',etc
       argval = escapeEntities( argval );
       break;
-      
+
    case VALGRIND::SUPPS_SEL: {
       QStringList files = argval.split( sep, QString::SkipEmptyParts );
 
@@ -555,7 +555,7 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       argval = files.join( sep );
    }
    break;
-   
+
    case VALGRIND::TRACE_CH: {
 #if 0
       // TODO
@@ -566,7 +566,7 @@ int Valgrind::checkOptArg( int optid, QString& argval )
             }
          }
       }
-      
+
 #else
       /* Disabled for now - can't deal with the multiple xml files this generates */
       /* Note: Also disabled in ValgrindOptionsPage() */
@@ -576,7 +576,7 @@ int Valgrind::checkOptArg( int optid, QString& argval )
 #endif
    }
    break;
-   
+
    case VALGRIND::SILENT_CH: {
       /* Disabled for now - output between fork and exec is confusing for the XML output */
       /* Note: Also disabled in ValgrindOptionsPage() */
@@ -585,15 +585,15 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       //         vkPrintErr(" - Necessary, to get clean XML output from Valgrind.");
    }
    break;
-   
+
    case VALGRIND::XML_OUTPUT:
       /* Note: gui option disabled, so only reaches here from cmdline */
       errval = PERROR_BADOPT;
       //      vkPrintErr("Option disabled '--%s'", opt->m_longFlag.latin1());
       //      vkPrintErr(" - Valkyrie always requires xml output from Valgrind.");
       break;
-      
-      
+
+
 #if 0 // TODO: Fix Valgrind to allow gdb attaching with XML output
    case VALGRIND::DB_COMMAND: {   /* gdb -nw %f %p */
       int pos = argval.find( ' ' );
@@ -603,10 +603,10 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       // vkPrint("db_command: %s", argval.latin1() );
    }
    break;
-   
+
    /* check for conflict with --trace-children */
    case VALGRIND::DB_ATTACH:
-   
+
       if ( opt->isValidArg( &errval, argval ) ) {
          if ( argval == "yes" ) {
             if ( vkCfgProj->rdBool( "trace-children", "valgrind" ) ) {
@@ -614,13 +614,13 @@ int Valgrind::checkOptArg( int optid, QString& argval )
             }
          }
       }
-      
+
       break;
 #endif
-      
+
    case VALGRIND::KERN_VAR:
       break;
-      
+
    // Logging options:
    // All tool objects use a logging option to generate/read Vg output.
    // All logging options are therefore ignored.
@@ -632,7 +632,7 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       vkPrintErr( "Option disabled '--%s'", qPrintable( opt->longFlag ) );
       vkPrintErr( " - Valkyrie sets its own logging options to gather data from Valgrind." );
       break;
-      
+
    // Not yet implemented
    case VALGRIND::INPUT_FD:
       // Note: gui option disabled, so only reaches here from cmdline
@@ -640,11 +640,11 @@ int Valgrind::checkOptArg( int optid, QString& argval )
       //      vkPrintErr("Option disabled '--%s'", opt->m_longFlag.latin1());
       //      vkPrintErr(" - Not yet implemented.");
       break;
-      
+
    default:
       vk_assert_never_reached();
    }
-   
+
    return errval;
 }
 
@@ -658,25 +658,25 @@ int Valgrind::checkOptArg( int optid, QString& argval )
 QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
 {
    QStringList modFlags;
-   
+
    foreach( VkOption * opt, options.getOptionHash() ) {
       QString defVal = opt->dfltValue.toString();
       QString cfgVal = vkCfgProj->value( opt->configKey() ).toString();
-      
+
       switch (( VALGRIND::vgOptId )opt->optid ) {
-      
+
          // we never want these included
       case VALGRIND::TOOL:            /* tool set by valkyrie */
          // ignore these opts
          break;
-         
+
          // only error-reporting tools have suppressions
       case VALGRIND::SUPPS_SEL: {
          if ( tool_obj->objectName() == "memcheck" ) {
             // we need '--suppressions=' before each and every filename
             QString optEntry = vkCfgProj->value( opt->configKey() ).toString();
             QStringList files = optEntry.split( ",", QString::SkipEmptyParts );
-            
+
             for ( int i = 0; i < files.count(); i++ ) {
                modFlags << "--" + opt->longFlag + "=" + files[i];
             }
@@ -685,11 +685,11 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
             // ignore opt
          }
       } break;
-      
-      
+
+
       // for memcheck we always need xml=yes
       case VALGRIND::XML_OUTPUT:
-      
+
          if ( tool_obj->objectName() == "memcheck" ) {
 //TODO: where do we want this?  is also added in memcheck_object...
 //            modFlags << "--" + opt->longFlag + "=yes";
@@ -699,12 +699,12 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
                modFlags << "--" + opt->longFlag + "=" + cfgVal;
             }
          }
-         
+
          break;
-         
+
          // for memcheck we need this enabled to keep the xml clean
       case VALGRIND::SILENT_CH:
-      
+
          if ( tool_obj->objectName() == "memcheck" ) {
             modFlags << "--" + opt->longFlag + "=yes";
          }
@@ -713,9 +713,9 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
                modFlags << "--" + opt->longFlag + "=" + cfgVal;
             }
          }
-         
+
          break;
-         
+
          // memcheck presets/ignores these options for xml output
          //  - ignore these opts
          //  - see valgrind/docs/internals/xml_output.txt
@@ -727,7 +727,7 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
       case VALGRIND::ERROR_LIMIT:
       case VALGRIND::DB_ATTACH:
       case VALGRIND::DB_COMMAND:
-      
+
          if ( tool_obj->objectName() == "memcheck" ) {
             // ignore these opts
          }
@@ -736,7 +736,7 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
                modFlags << "--" + opt->longFlag + "=" + cfgVal;
             }
          }
-         
+
          break;
 
          // suppressions
@@ -744,7 +744,7 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
          // always add, irrespective of cfgVal / dfltVal
          modFlags << "--" + opt->longFlag + "=" + cfgVal;
          break;
-         
+
          // all tools use an internal logging option,
          // so logging options should not be used
       case VALGRIND::LOG_FILE:
@@ -752,21 +752,21 @@ QStringList Valgrind::getVgFlags( ToolObject* tool_obj )
       case VALGRIND::LOG_SOCKET:
          // ignore these opts
          break;
-         
+
          // default: add --option=value
       default:
-      
+
          if ( defVal != cfgVal ) {
             modFlags << "--" + opt->longFlag + "=" + cfgVal;
          }
-         
+
          break;
       }
    }
-   
+
    // Collect non-default tool flags:
    modFlags += tool_obj->getVgFlags();
-   
+
    return modFlags;
 }
 
@@ -778,7 +778,7 @@ void Valgrind::initToolObjects()
 {
    toolObjList.append( new Memcheck() );
    toolObjList.append( new Helgrind() );
-   
+
    // TODO: I need another lifetime!
    //   toolObjList.append( new Cachegrind() );
    //   toolObjList.append( new Massif    () );
@@ -809,17 +809,17 @@ ToolObject* Valgrind::getToolObj( VGTOOL::ToolID tid )
 {
    //   vkPrint("Valgrind::toolObj( int tid=%d )", tid);
    vk_assert( tid > VGTOOL::ID_NULL );
-   
+
    ToolObject* tool = NULL;
-   
+
    for ( int i = 0; i < toolObjList.size(); i++ ) {
       tool = toolObjList.at( i );
-      
+
       if ( tool->getToolId() == tid ) {
          break;
       }
    }
-   
+
    vk_assert( tool != NULL );
    vk_assert( tool->getToolId() == tid );
    return tool;
@@ -830,13 +830,13 @@ ToolObject* Valgrind::getToolObj( VGTOOL::ToolID tid )
 ToolObject* Valgrind::getToolObj( const QString& name )
 {
    ToolObject* tool = NULL;
-   
+
    for ( tool = toolObjList.first(); tool; tool = toolObjList.next() ) {
       if ( tool->name() == name ) {
          break;
       }
    }
-   
+
    vk_assert( tool != NULL );
    vk_assert( tool->name() == name );
    return tool;

@@ -37,10 +37,10 @@ private:
 
 signals:
    void rowsChanged( bool, int );
-   
+
 protected slots:
    void rowsInserted(const QModelIndex &parent, int start, int end);
-   void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);   
+   void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
 };
 
 

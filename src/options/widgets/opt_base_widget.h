@@ -41,7 +41,7 @@ class OptionWidget : public QObject
 public:
    OptionWidget( QWidget* parent, VkOption* vkopt, bool mklabel );
    ~OptionWidget();
-   
+
    int id();
    QLabel*  label();
    QWidget* widget();
@@ -62,7 +62,7 @@ public:
 
    virtual QHBoxLayout* hlayout();
    virtual QVBoxLayout* vlayout();
-   
+
 signals:
    void valueChanged( bool, OptionWidget* );
    void editDone( OptionWidget* );
@@ -76,7 +76,7 @@ protected:
    QLabel*      m_wLabel;
    QHBoxLayout* m_hBox;
    QVBoxLayout* m_vBox;
-   
+
    QString      m_initialValue;
    QString      m_currentValue;
    VkOption*    m_opt;

@@ -38,19 +38,19 @@ private:
    SuppRanges();
    SuppRanges(SuppRanges const&);            // Not implemented
    SuppRanges& operator=(SuppRanges const&); // Not implemented
-   
+
 public:
    static SuppRanges& instance() {
       static SuppRanges theInstance;
       return theInstance;
    }
    ~SuppRanges() {};
-   
+
    // limit access to read-only, so issues with global access
    const QStringList& getKindTools() { return kindTools; }
    const QList<QStringList>& getKindTypes() { return kindTypes; }
    const QStringList& getFrameTypes() { return frameTypes; }
-   
+
 private:
    QStringList kindTools;        // Memcheck|...
    QList<QStringList> kindTypes; // list for every tool
@@ -78,7 +78,7 @@ public:
    QString getKind() const { return m_kind; }
    QString getKAux() const { return m_kind_aux; }
    QStringList getFrames() const { return m_frames; }
-   
+
 private:
    QString m_name;           // name of the suppression
    QString m_kind;           // kind, eg "Memcheck:Param"
@@ -92,7 +92,7 @@ class SuppList
 {
 public:
    SuppList() {};
-   
+
    bool readSuppFile( QString& filename );
    bool writeSuppFile();
    const QStringList suppNames();
@@ -102,7 +102,7 @@ public:
    bool editSupp( int idx, Suppression supp = Suppression() );
    bool deleteSupp( int idx );
 
-private:   
+private:
    QList<Suppression> m_supps;
    QString m_fname;
 };

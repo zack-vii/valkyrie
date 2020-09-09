@@ -45,22 +45,22 @@ class VkObject : public QObject
 public:
    VkObject( QString objectName );
    ~VkObject();
-   
+
    virtual unsigned int maxOptId() = 0;
-   
+
    /*! check argval for given option (updating argval if necessary).
        called by parseCmdArgs() and gui option pages */
    virtual int checkOptArg( int optid, QString& argval ) = 0;
-   
+
    virtual void updateConfig( int optid, QString& argval );
-   
+
    void resetOptsToFactoryDefault();
-   
+
    virtual VkOptionsPage* createVkOptionsPage() = 0;
-   
+
    VkOption* getOption( int optid );
    OptionHash& getOptions();
-   
+
 protected:
    virtual void setupOptions() = 0;
    VkOptionHash options;

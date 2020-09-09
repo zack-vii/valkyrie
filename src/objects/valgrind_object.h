@@ -42,14 +42,14 @@ enum vgOptId {
    LOG_FD,         // --log-fd
    LOG_FILE,       // --log-file
    LOG_SOCKET,     // --log-socket
-   
+
    // uncommon options relevant to all tools
    RUN_LIBC,       // --run-libc-freeres
    SIM_HINTS,      // --sim-hints
    KERN_VAR,       // --kernel-variant
    EM_WARNS,       // --show-emwarns
    SMC_CHECK,      // --smc-check
-   
+
    // options relevant to error-reporting tools
    XML_OUTPUT,     // --xml
    XML_COMMENT,    // --xml-user-comment
@@ -57,10 +57,10 @@ enum vgOptId {
    NUM_CALLERS,    // --num-callers
    ERROR_LIMIT,    // --error-limit
    SHOW_BELOW,     // --show-below-main
-   
+
    // suppressions hackery
    SUPPS_SEL,      // selected suppression files
-   
+
    // misc
    GEN_SUPP,       // --gen-suppressions
    DB_ATTACH,      // --db-attach
@@ -78,17 +78,17 @@ class Valgrind : public VkObject
 public:
    Valgrind();
    ~Valgrind();
-   
+
    QStringList getVgFlags( ToolObject* tool_obj );
-   
+
    unsigned int maxOptId() {
       return VALGRIND::NUM_OPTS;
    }
-   
+
    int checkOptArg( int optid, QString& argval );
-   
+
    VkOptionsPage* createVkOptionsPage();
-   
+
 public:
    // ToolObject access
    ToolObjList getToolObjList();
@@ -96,12 +96,12 @@ public:
 //TODO: needed?
    //   int         getToolObjId( const QString& name );
    //   ToolObject* getToolObj( const QString& name );
-   
+
 private:
    // create & init vg tools, ready for cmdline parsing
    void initToolObjects();
    ToolObjList toolObjList;  // Valgrind Tools
-   
+
 private:
    void setupOptions();
 };

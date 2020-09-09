@@ -40,7 +40,7 @@ class ContextHelpAction: public QAction
 public:
    ContextHelpAction( QWidget* parent, HandBook* book );
    ~ContextHelpAction();
-   
+
 public slots:
    void startListening( bool checked );
 };
@@ -53,27 +53,27 @@ class ContextHelp: public QObject
 {
    Q_OBJECT
    friend class ContextHelpAction;
-   
+
 public:
    ContextHelp();
    ~ContextHelp();
    static void addHelp( QWidget*, const QString& );
-   
+
 private:
    static void setupSingleton();
-   
+
    bool eventFilter( QObject*, QEvent* );
    void newItem( QWidget* widget, const QString& text );
    void showHelp( const QString& );
    void cancelHelpEvent();
    void remove( QWidget* );
-   
+
    HandBook* hbook;   // ptr to the application-wide handbook
-   
+
    QHash<QWidget*, QString> wdict;    // mapping widg->url
    QList<ContextHelpAction*> actions; // allows turning off all registered ctxt help actions
    bool listeningForEvent;
-   
+
 private slots:
    void cleanupWidget();
 };

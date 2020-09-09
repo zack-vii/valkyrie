@@ -49,12 +49,12 @@ ContextHelpAction::ContextHelpAction( QWidget* parent, HandBook* book )
    : QAction( parent )
 {
    setObjectName( QString::fromUtf8( "ctxt_help_tb" ) );
-   
+
    ContextHelp::setupSingleton();
-   
+
    ctxt->actions.append( this );
    ctxt->hbook = book;
-   
+
    setIcon( QPixmap( QString::fromUtf8( ":/vk_icons/icons/context_help.xpm" ) ) );
    setCheckable( true );
    setIconVisibleInMenu( true );
@@ -63,7 +63,7 @@ ContextHelpAction::ContextHelpAction( QWidget* parent, HandBook* book )
    setFocusPolicy( Qt::NoFocus );
 #endif
    this->setToolTip( "This is a <b>Context Help</b> button. Clicking on a widget will open the relevant manual help page" );
-   
+
    connect( this, SIGNAL( triggered( bool ) ),
             this, SLOT( startListening( bool ) ) );
 }
@@ -113,10 +113,10 @@ ContextHelp::~ContextHelp()
    if ( listeningForEvent == true && qApp ) {
       QApplication::restoreOverrideCursor();
    }
-   
+
    actions.clear();
    wdict.clear();
-   
+
    ctxt = 0;
 }
 
@@ -128,7 +128,7 @@ ContextHelp::~ContextHelp()
 void ContextHelp::remove( QWidget* widget )
 {
    vk_assert( widget != NULL );
-   
+
    wdict.remove( widget );
    // TODO: check return value - num removed should only ever be 1.
 }
@@ -137,39 +137,39 @@ void ContextHelp::remove( QWidget* widget )
 bool ContextHelp::eventFilter( QObject* obj, QEvent* ev )
 {
    if ( listeningForEvent ) {
-   
+
       if ( ev->type() == QEvent::MouseButtonPress && obj->isWidgetType() ) {
          QWidget* widg = ( QWidget* ) obj;
-         
+
          if ((( QMouseEvent* )ev )->button() == Qt::RightButton ) {
             return false;   // ignore right mouse button
          }
-         
+
          QString url;
-         
+
          while ( widg && url.isEmpty() ) {
             if ( widg->inherits( "QMenuBar" ) ) {
                // If we're a qmenubar, allow event to pass on so menus work...
                // TODO: find what menuitem we're sitting on, if any, and get that widget...
                return false;
             }
-            
+
             url = wdict.value( widg );
-            
+
             if ( url.isEmpty() ) {
                //             pos += widg->pos();
                widg = widg->parentWidget();  // 0 if no parent
             }
          }
-         
+
          cancelHelpEvent();
-         
+
          if ( !widg || url.isEmpty() ) {
             //TODO: vkMsg?
             cerr << "No help found for this widget" << endl;
             return true;
          }
-         
+
          showHelp( url );
          return true;
       }
@@ -177,7 +177,7 @@ bool ContextHelp::eventFilter( QObject* obj, QEvent* ev )
          if ((( QMouseEvent* )ev )->button() == Qt::RightButton ) {
             return false;   // ignore right mouse button
          }
-         
+
          return !obj->isWidgetType();
       }
       else if ( ev->type() == QEvent::MouseMove ) {
@@ -185,7 +185,7 @@ bool ContextHelp::eventFilter( QObject* obj, QEvent* ev )
       }
       else if ( ev->type() == QEvent::KeyPress ) {
          QKeyEvent* kev = ( QKeyEvent* )ev;
-         
+
          if ( kev->key() == Qt::Key_Escape ) {
             cancelHelpEvent();
             return true;
@@ -194,25 +194,25 @@ bool ContextHelp::eventFilter( QObject* obj, QEvent* ev )
                    ( kev->key() == Qt::Key_F10 &&
                      ( kev->modifiers() & Qt::ShiftModifier ) ) ) {
             //TODO: test shift-F10. modifiers() may not be trustworthy.
-            
+
             // don't react to these keys: they are used for context menus
             return false;
          }
-         
+
 #if 0 // TODO: how to do this in Qt4?
          else if ( kev->state() == kev->stateAfter() &&
                    kev->key() != Qt::Key_Meta ) {
             // not a modifier key
             cancelHelpEvent();
          }
-         
+
 #endif
       }
       else if ( ev->type() == QEvent::MouseButtonDblClick ) {
          return true;
       }
    }
-   
+
    return false;
 }
 
@@ -221,12 +221,12 @@ void ContextHelp::setupSingleton()
 {
    if ( !ctxt ) {
       ctxt = new ContextHelp();
-      
-      
+
+
       //TODO: this really necessary?
       // not better to setup a parent, so gets auto-deleted at app close?
       // or just create and delete in main()?
-      
+
       /* it is necessary to use a post routine, because the destructor
          deletes pixmaps and other stuff that needs a working X
          connection under X11. */
@@ -246,7 +246,7 @@ void ContextHelp::cancelHelpEvent()
       foreach( ContextHelpAction * act, ctxt->actions ) {
          act->setChecked( false );
       }
-      
+
       QApplication::restoreOverrideCursor();
       listeningForEvent = false;
       qApp->removeEventFilter( this );
@@ -260,35 +260,35 @@ void ContextHelp::cancelHelpEvent()
 void ContextHelp::showHelp( const QString& text )
 {
    cerr << "ContextHelp::showHelp: '" << text.toLatin1().constData() << "'" << endl;
-   
+
    if ( text.isEmpty() ) {
       return;
    }
-   
+
    if ( !hbook->isVisible() ) {
-   
+
       // find out where MainWindow is, and park up beside it
       QWidget* mw = qApp->activeWindow();
       int scr = QApplication::desktop()->screenNumber( mw );
       QRect screen = QApplication::desktop()->screenGeometry( scr );
-      
+
       int x;
       int hw = hbook->width();
-      
+
       // get the global co-ords of the top-left pixel of MainWin
       QPoint pos = mw->mapToGlobal( QPoint( 0, 0 ) );
-      
+
       if ( hw < ( pos.x() - screen.x() ) ) {
          x = pos.x() - hw;
       }
       else {
          x = pos.x() + mw->width();
       }
-      
+
       hbook->move( x, pos.y() );
       hbook->show();
    }
-   
+
    hbook->raise();
    hbook->openUrl( text );
 }
@@ -300,7 +300,7 @@ void ContextHelp::showHelp( const QString& text )
 void ContextHelp::cleanupWidget()
 {
    const QObject* obj = sender();
-   
+
    if ( !obj->isWidgetType() ) {   // sanity check
       cerr << "Error: ContextHelp::cleanupWidget(): "
            << "signal received from non-widget: "
@@ -325,10 +325,10 @@ void ContextHelp::newItem( QWidget* widg, const QString& url )
            << " - Replacing with: '" << qPrintable( url ) << "'" << endl;
       wdict.remove( widg );
    }
-   
+
    // add to our list
    wdict.insert( widg, url );
-   
+
    // make sure to remove mappings that no longer exist.
    connect( widg, SIGNAL( destroyed() ),
             this, SLOT( cleanupWidget() ) );
@@ -343,7 +343,7 @@ void ContextHelp::newItem( QWidget* widg, const QString& url )
 void ContextHelp::addHelp( QWidget* widg, const QString& url )
 {
    vk_assert( widg != NULL );
-   
+
    if ( !url.isEmpty() ) {
       setupSingleton();
       ctxt->newItem( widg, url );

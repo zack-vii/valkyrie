@@ -28,10 +28,10 @@
 class MemcheckOptionsPage : public VkOptionsPage
 {
    Q_OBJECT
-   
+
 public:
    MemcheckOptionsPage( VkObject* obj );
-   
+
 private:
    void setupOptions();
 };

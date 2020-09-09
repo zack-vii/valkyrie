@@ -104,14 +104,14 @@ class VkOptionHash
 public:
    VkOptionHash();
    ~VkOptionHash();
-   
+
    VkOption* getOption( int optid );
-   
+
    OptionHash& getOptionHash() {
       return optionHash;
    }
-   
-   
+
+
    void addOpt( int optid,
                 QString cfg_group,
                 QString long_flag,
@@ -125,7 +125,7 @@ public:
                 VkOPT::ArgType arg_type,
                 VkOPT::WidgType w_type
               );
-              
+
 protected:
    OptionHash optionHash;
 };
@@ -156,8 +156,8 @@ public:
 
 signals:
    void valueChanged();
-   
-   
+
+
 public:
    int             optid;         // for easy identification
    QString         configGrp;     // eg. [valkyrie]
@@ -173,9 +173,9 @@ public:
    QString         urlAddress;    // context help url
    VkOPT::ArgType  argType;       // eg. ARG_UINT
    VkOPT::WidgType widgType;      // eg. VkOPTION::WDG_LEDIT
-   
+
    QString configKey();
-   
+
    bool isaConfigOpt();
    void updateConfig( QVariant argVal );
 

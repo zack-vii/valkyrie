@@ -34,24 +34,24 @@
 SuppRanges::SuppRanges()
 {
    // init ref lists of allowable values
-   
+
    // Tools
    kindTools.append("Memcheck");
    kindTools.append("DRD");
    kindTools.append("Exp-PtrCheck");
    kindTools.append("Helgrind");
-   
+
    // Suppr types PER TOOL
    for (int i=0; i<kindTools.count(); i++)
       kindTypes.append( QStringList() );
-   
+
    int i=0;
    QStringList* mc_types = &kindTypes[i++];
    mc_types->append("Value1"); // "Uninitialised-value error for value of 1, 2, 4, 8 or 16 bytes."
-   mc_types->append("Value2"); 
-   mc_types->append("Value4"); 
-   mc_types->append("Value8"); 
-   mc_types->append("Value16"); 
+   mc_types->append("Value2");
+   mc_types->append("Value4");
+   mc_types->append("Value8");
+   mc_types->append("Value16");
    mc_types->append("Cond");   // "Uninitialised CPU condition code."
    mc_types->append("Value0"); // "Old name for Cond - uninitialised CPU condition code"
    mc_types->append("Addr1");  // "Invalid address during a memory access of 1, 2, 4, 8 or 16 bytes."
@@ -70,15 +70,15 @@ SuppRanges::SuppRanges()
 
 #if 0 // TODO: support drd, ptr-check
    QStringList* drd_types = &kindTypes[i++];
-   drd_types->append("CondErr"); 
-   drd_types->append("ConflictingAccess"); 
+   drd_types->append("CondErr");
+   drd_types->append("ConflictingAccess");
 
    QStringList* exp_pchk_types = &kindTypes[i++];
-   exp_pchk_types->append("Arith"); 
-   exp_pchk_types->append("Heap"); 
-   exp_pchk_types->append("SorG"); 
+   exp_pchk_types->append("Arith");
+   exp_pchk_types->append("Heap");
+   exp_pchk_types->append("SorG");
 #endif
-   
+
    // Frame types
    frameTypes.append("fun");  // "name of the function in which the error occurred"
    frameTypes.append("obj");  // "full path of the .so file or executable containing the error location"
@@ -102,7 +102,7 @@ bool Suppression::setName( QString str )
    str = str.simplified();
    if ( str.isEmpty() )
       return false;
-   
+
    m_name = str;
    return true;
 }
@@ -112,18 +112,18 @@ bool Suppression::setName( QString str )
 bool Suppression::setKind( QString str )
 {
    vk_assert( !m_name.isEmpty() );
-   
+
    str = str.simplified();
    if ( str.isEmpty() )
       return false;
-   
+
    QStringList list = str.split(":");
    if (list.count() != 2) {
       vkPrintErr("Bad Kind (%s) for this suppression (%s).",
                  qPrintable(str), qPrintable(m_name));
       return false;
    }
-   
+
    QRegExp re( list[0], Qt::CaseInsensitive );
    int idx = SuppRanges::instance().getKindTools().indexOf( re );
    if ( idx == -1 ) {
@@ -147,7 +147,7 @@ bool Suppression::setKind( QString str )
 bool Suppression::setKindAux( QString str )
 {
    str = str.simplified();
-   
+
    m_kind_aux = str;
    return true;
 }
@@ -170,13 +170,13 @@ bool Suppression::addFrame( QString str )
                   qPrintable(list[0]), qPrintable(m_name) );
       return false;
    }
-   
+
    if ( list.at(1).isEmpty() ) {
       vkPrintErr( "Empty frame contents ('%s') for suppression '%s'.",
                   qPrintable(str), qPrintable(m_name) );
       return false;
    }
-   
+
    m_frames.append( str );
    return true;
 }
@@ -215,7 +215,7 @@ bool Suppression::fromStringList( const QStringList& lines )
                   nFrames, MAX_SUPP_FRAMES );
       return false;
    }
-   
+
    // frames
    for (;i<lines.count(); i++) {
       if ( !addFrame( lines[i] ) ) return false;
@@ -249,13 +249,13 @@ QString Suppression::toString() const
 bool SuppList::readSuppFile( QString& fname )
 {
    m_fname = fname;
-   
+
    QFile file( fname );
    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
       // TODO: error
       return false;
    }
-   
+
    bool suppParseError = false;
    QTextStream in(&file);
 
@@ -273,7 +273,7 @@ bool SuppList::readSuppFile( QString& fname )
                break;
             suppLines += line;
          }
-         
+
          if ( supp.fromStringList( suppLines ) ) {
             m_supps.append( supp );
          }
@@ -288,9 +288,9 @@ bool SuppList::readSuppFile( QString& fname )
    if ( m_supps.count() == 0 ) {
       //TODO: tell user (INFO) no supps found in this file.
    }
-   
+
    if ( suppParseError ) {
-      
+
       int res = vkQuery( 0, "Confirm Continue", "&Ok;&Cancel",
                          "<p>Problems were found with a suppression file.<br/>"
                         "If you continue, the suppressions that were unsuccessfully "
@@ -322,13 +322,13 @@ bool SuppList::writeSuppFile()
       // TODO: error
       return false;
    }
-   
+
    QTextStream out(&file);
-   
+
    for (int i=0; i<m_supps.count(); ++i) {
       out << m_supps.at(i).toString();
    }
-  
+
    file.close();
    return true;
 }
@@ -379,7 +379,7 @@ bool SuppList::initSuppsFile( const QString& fname )
              << "#\n"
              << "# Note: For Memcheck, the the optional aux info is:\n"
              << "#       if (KIND == 'Param'): KAUX = system call param e.g. 'write(buf)'\n" << endl;
-      
+
       file.close();
       return true;
    }
@@ -424,14 +424,14 @@ bool SuppList::editSupp( int idx, Suppression supp )
    // run dialogbox
    if ( dlg.exec() == QDialog::Accepted ) {
       supp = dlg.getUpdatedSupp();
-      
+
       // update model and rewrite suppfile
       if ( isNew )
          m_supps.append( supp );
       else {
          m_supps.replace( idx, supp );
       }
-      
+
       if (!writeSuppFile()) {
          //TODO: error
          vkPrintErr("Error: failure during log save");

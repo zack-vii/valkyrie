@@ -35,7 +35,7 @@ LeWidget::LeWidget( QWidget* parent, VkOption* vkopt, bool mklabel )
    m_pb    = 0;
    m_ledit = new QLineEdit( parent );
    m_widg  = m_ledit;
-   
+
    m_ledit->setText( m_initialValue );
    connect( m_ledit, SIGNAL( textChanged( const QString& ) ),
             this,      SLOT( setCurrValue( const QString& ) ) );
@@ -56,7 +56,7 @@ LeWidget::~LeWidget()
       delete m_ledit;
       m_ledit = 0;
    }
-   
+
    if ( m_pb ) {
       delete m_pb;
       m_pb = 0;
@@ -117,7 +117,7 @@ void LeWidget::addButton( QWidget* parent, const QObject* receiver,
 {
    QString label = !txt.isNull() ? txt : m_opt->shortHelp;
    m_pb = new QPushButton( label, parent );
-   
+
    int pbht = m_ledit->height() - 8;
    m_pb->setMaximumHeight( pbht );
    connect( m_pb, SIGNAL( clicked() ), receiver, slot );
@@ -129,15 +129,15 @@ void LeWidget::addButton( QWidget* parent, const QObject* receiver,
 QHBoxLayout* LeWidget::hlayout()
 {
    m_hBox = new QHBoxLayout();
-   
+
    if ( m_pb != 0 ) {
       m_hBox->addWidget( m_pb );
    }
    else {
       m_hBox->addWidget( m_wLabel );
    }
-   
+
    m_hBox->addWidget( m_widg );
-   
+
    return m_hBox;
 }

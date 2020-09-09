@@ -34,10 +34,10 @@ OptionWidget::OptionWidget( QWidget* parent, VkOption* vkopt, bool mklabel )
    m_opt    = vkopt;
    m_widg   = 0;
    m_wLabel = 0;
-   
+
    m_initialValue = vkCfgProj->value( m_opt->configKey() ).toString();
    m_currentValue = m_initialValue;
-   
+
    if ( mklabel ) {
       m_wLabel = new QLabel( m_opt->shortHelp, parent );
       m_wLabel->setMinimumSize( m_wLabel->sizeHint() );
@@ -136,7 +136,7 @@ void OptionWidget::setEnabled( bool enable )
    if ( m_wLabel != 0 ) {
       m_wLabel->setEnabled( enable );
    }
-   
+
    if ( m_widg != 0 ) {
       m_widg->setEnabled( enable );
    }
@@ -148,11 +148,11 @@ void OptionWidget::setEnabled( bool enable )
 QHBoxLayout* OptionWidget::hlayout()
 {
    vk_assert( m_wLabel != 0 );
-   
+
    m_hBox = new QHBoxLayout();
    m_hBox->addWidget( m_wLabel );
    m_hBox->addWidget( m_widg );
-   
+
    return m_hBox;
 }
 
@@ -160,10 +160,10 @@ QHBoxLayout* OptionWidget::hlayout()
 QVBoxLayout* OptionWidget::vlayout()
 {
    vk_assert( m_wLabel != 0 );
-   
+
    m_vBox = new QVBoxLayout();
    m_vBox->addWidget( m_wLabel );
    m_vBox->addWidget( m_widg );
-   
+
    return m_vBox;
 }

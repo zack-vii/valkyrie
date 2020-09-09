@@ -47,16 +47,16 @@ VkOptionsDialog::VkOptionsDialog( QWidget* parent )
    setObjectName( QString::fromUtf8( "VkOptionsDialog" ) );
    setWindowTitle( "[*]Valkyrie Options Dialog" ); // [*] == 'windowModified' placeholder
    setupLayout();
-   
+
    // ------------------------------------------------------------
    // Add categories, and the pages
    // Note: both the pages and categories list use the same 'index',
    // which is how we keep them in sync.
    // TODO: if any complaints re speed, load the pages on demand.
    VkObjectList objList = (( MainWindow* )parent )->getValkyrie()->vkObjList();
-   
+
    for ( int i = 0; i < objList.size(); ++i ) {
-   
+
       // Allow the VkObject to create the appropriate options page
       // Pass 'this' so constructor widgets auto-size correctly.
       VkObject* obj = objList.at( i );
@@ -66,7 +66,7 @@ VkOptionsDialog::VkOptionsDialog( QWidget* parent )
       connect( page, SIGNAL( modified() ), this, SLOT( pageModified() ) );
       // handle e.g. user pressing return in an ledit
       connect( page, SIGNAL( apply() ), this, SLOT( apply() ) );
-      
+
       // Set list item entry
       QListWidgetItem* item = new QListWidgetItem( contentsListWidget );
       QString itemName = obj->objectName();
@@ -81,16 +81,16 @@ VkOptionsDialog::VkOptionsDialog( QWidget* parent )
       // insert into stack (takes ownership)
       optionPages->addWidget( page );
    }
-   
+
    contentsListWidget->setCurrentRow( 0 );
    contentsListWidget->setFocus();
    optionPages->setCurrentIndex( 0 );
-   
+
    // Give a max to our contentsList, based on hints from the list-items.
    // TODO: surely this can be done automatically?
    // - QSizePolicy::* don't seem to do the job :-(
    contentsListWidget->setMaximumWidth( 40 + contentsListWidget->sizeHintForColumn( 0 ) );
-   
+
    ContextHelp::addHelp( this, urlValkyrie::optsDlg );
 }
 
@@ -107,7 +107,7 @@ QWidget* VkOptionsDialog::setCurrentPage( int idx )
 {
    optionPages->setCurrentIndex( idx );
    contentsListWidget->setCurrentRow( idx );
-   
+
    return optionPages->currentWidget();
 }
 
@@ -144,19 +144,19 @@ void VkOptionsDialog::setupLayout()
    // top layout
    QVBoxLayout* vLayout = new QVBoxLayout( this );
    vLayout->setObjectName( QString::fromUtf8( "vlayout" ) );
-   
+
    // ------------------------------------------------------------
    // parent widget for the contents + pages
    QWidget* hLayoutWidget = new QWidget( this );
    hLayoutWidget->setObjectName( QString::fromUtf8( "hLayoutWidget" ) );
    vLayout->addWidget( hLayoutWidget );
-   
+
    // ------------------------------------------------------------
    // contents + pages layout
    QHBoxLayout* hLayout = new QHBoxLayout( hLayoutWidget );
    hLayout->setObjectName( QString::fromUtf8( "hLayout" ) );
    hLayout->setContentsMargins( 0, 0, 0, 0 );
-   
+
    // ------------------------------------------------------------
    // The contents list
    // Note: give this its maximum width once filled with items
@@ -168,31 +168,31 @@ void VkOptionsDialog::setupLayout()
    contentsListWidget->setSizePolicy( sizePolicyContents );
    contentsListWidget->setSelectionMode( QAbstractItemView::SingleSelection );
    hLayout->addWidget( contentsListWidget );
-   
+
    optionPages = new QStackedWidget( hLayoutWidget );
    optionPages->setObjectName( QString::fromUtf8( "optionPages" ) );
    optionPages->setFrameShape( QFrame::StyledPanel );
    optionPages->setFrameShadow( QFrame::Raised );
    hLayout->addWidget( optionPages );
-   
-   
+
+
    // ------------------------------------------------------------
    // parent widget for the buttons
    QWidget* hButtonWidget = new QWidget( this );
    hButtonWidget->setObjectName( QString::fromUtf8( "hButtonWidget" ) );
    vLayout->addWidget( hButtonWidget );
-   
+
    // ------------------------------------------------------------
    // options button box
    QHBoxLayout* hLayoutButtons = new QHBoxLayout( hButtonWidget );
    hLayoutButtons->setObjectName( QString::fromUtf8( "hLayoutButtons" ) );
    hLayoutButtons->setMargin(0);
-   
+
    updateDefaultsButton = new QPushButton( QPixmap( ":/vk_icons/icons/filesave.png" ),
                                      "Save As Project Default" );
    hLayoutButtons->addWidget( updateDefaultsButton );
    hLayoutButtons->addStretch( 1 );
-   
+
    optionsButtonBox = new QDialogButtonBox( hButtonWidget );
    optionsButtonBox->setObjectName( QString::fromUtf8( "optionsButtonBox" ) );
    optionsButtonBox->setOrientation( Qt::Horizontal );
@@ -200,7 +200,7 @@ void VkOptionsDialog::setupLayout()
                                          QDialogButtonBox::Cancel |
                                          QDialogButtonBox::Ok );
    hLayoutButtons->addWidget( optionsButtonBox );
-   
+
    // ------------------------------------------------------------
    // signals / slots
    connect( contentsListWidget, SIGNAL( itemSelectionChanged() ),
@@ -292,7 +292,7 @@ void VkOptionsDialog::showPage()
 void VkOptionsDialog::reject()
 {
    //   std::cerr << "VkOptionsDialog::reject()" << std::endl;
-   
+
    VkOptionsPage* page = ( VkOptionsPage* )optionPages->currentWidget();
    vk_assert( page );
 
@@ -312,18 +312,18 @@ void VkOptionsDialog::reject()
 bool VkOptionsDialog::apply()
 {
    //   std::cerr << "VkOptionsDialog::apply()" << std::endl;
-   
+
    VkOptionsPage* page = ( VkOptionsPage* )optionPages->currentWidget();
    vk_assert( page );
-   
+
    if ( !page->applyEdits() ) {
       VK_DEBUG( "Failed to apply edits" );
       return false;
    }
-   
+
    // ensure changes saved to disc
    vkCfgProj->sync();
-   
+
    return true;
 }
 
@@ -335,12 +335,12 @@ bool VkOptionsDialog::apply()
 void VkOptionsDialog::accept()
 {
    //   std::cerr << "VkOptionsDialog::apply()" << std::endl;
-   
+
    if ( apply() ) {
       // close up shop.
       QDialog::accept();
    }
-   
+
    // Else, we have a problem.
    // Best to let the user know changes didn't get committed, and let them cancel.
 }
@@ -375,12 +375,12 @@ void VkOptionsDialog::pageModified()
    VkOptionsPage* page = ( VkOptionsPage* )optionPages->currentWidget();
    vk_assert( page );
    bool modified = page->isModified();
-   
+
    QPushButton* applyButton  = optionsButtonBox->button( QDialogButtonBox::Apply );
    applyButton->setEnabled( modified );
    // enable update-defaults only when no edits
    updateDefaultsButton->setEnabled( !modified );
-   
+
    // updates the window title to indicate modified.
    this->setWindowModified( modified );
 }

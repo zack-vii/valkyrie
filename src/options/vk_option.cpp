@@ -116,7 +116,7 @@ VkOptionHash::VkOptionHash()
 VkOptionHash::~VkOptionHash()
 {
    Iter_OptionHash it = optionHash.begin();
-   
+
    while ( it != optionHash.end() ) {
       delete it.value();
       it = optionHash.erase( it );  // erase doesn't mess up the iterator
@@ -154,7 +154,7 @@ void VkOptionHash::addOpt(
       flagDesc,  possVals, dfltValue,
       shortHelp, longHelp, urlAddress,
       argType,   widgType );
-      
+
    optionHash.insert( optid, opt );
 }
 
@@ -199,31 +199,31 @@ VkOption::VkOption(
    urlAddress = _urlAddress;
    argType    = _argType;
    widgType   = _widgType;
-   
+
    // augment longHelp if dfltValue not empty
    if ( argType != VkOPT::NOT_POPT &&
         !dfltValue.toString().isEmpty() ) {
       longHelp += " [" + dfltValue.toString() + "]";
    }
-   
+
    // Assert is valid option ----------------------------------------
    if ( 0 ) {
       print();
    }
-   
+
    // we always expect the following fields
    vk_assert( !configGrp.isEmpty() );
    vk_assert( !longFlag.isEmpty() );
 
    // always at least short or long help
    vk_assert( !longHelp.isEmpty() || !shortHelp.isEmpty() );
-   
+
    // if ARG_NONE, we don't expect any argument related stuff
    if ( argType == VkOPT::ARG_NONE ) {
       vk_assert( flagDescr.isEmpty() );
       vk_assert( possValues.isEmpty() );
    }
-   
+
    // NOT_POPT options: not for command-line processing
    if ( argType == VkOPT::NOT_POPT ) {
 
@@ -241,7 +241,7 @@ VkOption::VkOption(
          vk_assert_never_reached();
       }
    }
-   
+
    // ARG_PWR2 options
    if ( argType == VkOPT::ARG_PWR2 ) {
       // min|max
@@ -261,7 +261,7 @@ VkOption::VkOption(
       vk_assert( min <= dflt );
       vk_assert( dflt <= max );
    }
-   
+
    // ARG_UINT options
    if ( argType == VkOPT::ARG_UINT ) {
       // except don't test cachegrind's horrible cache options
@@ -269,7 +269,7 @@ VkOption::VkOption(
                         ( longFlag == "I1" ||
                           longFlag == "D1" ||
                           longFlag == "L2" ) );
-                          
+
       if ( dontTest ) {
          VK_DEBUG( "Warning: Not performing UInt value test for option: %s",
                    qPrintable( longFlag ) );
@@ -288,7 +288,7 @@ VkOption::VkOption(
          vk_assert( dflt <= max );
       }
    }
-   
+
    // ARG_BOOL options
    if ( argType == VkOPT::ARG_BOOL ) {
       // true|false (in various guises)
@@ -299,16 +299,16 @@ VkOption::VkOption(
       vk_assert( t == "true"  || t == "on"  || t == "yes" || t == "1" || t == "T" );
       vk_assert( f == "false" || f == "off" || f == "no"  || f == "0" || f == "F" );
    }
-   
+
    // OptWidget relies on bool values being in order <true|false>
    if ( widgType == VkOPT::WDG_CHECK ||
         widgType == VkOPT::WDG_RADIO ) {
-        
+
       vk_assert( possValues.count() == 2 );
-      
+
       QString yes = possValues[0];
       QString no  = possValues[1];
-      
+
       vk_assert( yes == "1" || yes == "on" || yes == "yes" || yes == "true" );
       vk_assert(  no == "0" || no == "off" ||  no == "no"  || no == "false" );
    }

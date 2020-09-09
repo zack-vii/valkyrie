@@ -42,17 +42,17 @@
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
-   
+
 public:
    MainWindow( Valkyrie* vk );
    ~MainWindow();
-   
+
    void insertToolMenuAction( QAction* action );
    void removeToolMenuAction( QAction* action );
    Valkyrie* getValkyrie() {
       return valkyrie;
    }
-   
+
 public slots:
    void showToolView( VGTOOL::ToolID toolId );
    void runTool( VGTOOL::ToolProcessId procId );
@@ -84,18 +84,18 @@ private slots:
    void openAboutLicense();
    void openAboutSupport();
    void updateVgButtons( bool running );
-   
+
    // functions for dealing with config updates
    void showLabels();
    void showToolTips();
    void setGenFont();
    void setToolFont();
    void setPalette();
-   
+
    // functions for dealing with toolview updates
    void setLogFile( QString logFilename );
-   
-   
+
+
 private:
    enum { MaxRecentProjs = 5 };
    QAction* actFile_NewProj;
@@ -122,17 +122,17 @@ private:
    QMenu* menuTools;
    QMenu* menuProcess;
    QMenu* menuHelp;
-   
+
    QToolBar* mainToolBar;
    QStatusBar* mainStatusBar;
-   
+
 private:
    Valkyrie*        valkyrie;
    ToolViewStack*   toolViewStack;
    QLabel*          statusLabel;
    HandBook*        handBook;
    VkOptionsDialog* optionsDialog;
-   
+
    bool     fShowToolTips;
    QFont    lastAppFont;
    QPalette lastPalette;

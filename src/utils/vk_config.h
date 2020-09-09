@@ -155,7 +155,7 @@ private:
    void writeConfigDefaults();
    bool loadDefaultConfig();
    void replaceConfig( QSettings* new_cfg );
-   
+
 private:
    Valkyrie* vk;
    QSettings* currentCfg;

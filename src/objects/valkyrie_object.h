@@ -77,24 +77,24 @@ class Valkyrie : public VkObject
 public:
    Valkyrie();
    ~Valkyrie();
-   
+
    bool runTool( VGTOOL::ToolID tId, VGTOOL::ToolProcessId procId );
    void stopTool( VGTOOL::ToolID tId );
    bool queryToolDone( VGTOOL::ToolID tId );
-   
+
    unsigned int maxOptId() {
       return VALKYRIE::NUM_OPTS;
    }
-   
+
    int checkOptArg( QString optGrp, int optid, QString& argval );
    int checkOptArg( int optid, QString& argval );
-   
+
    void updateConfig( QString optGrp, int optid, QString& argval );
    void updateConfig( int optid, QString& argval );
-   
+
    // Generate own options page
    VkOptionsPage* createVkOptionsPage();
-   
+
    Valgrind* valgrind() {
       return m_valgrind;
    }
@@ -102,21 +102,21 @@ public:
    VGTOOL::ToolProcessId getStartToolProcess() {
       return m_startToolProcess;
    }
-   
+
    VkOption* findOption( QString& optKey );
 //TODO: needed?
    //   VkOption* findOption( QString& optGrp, int optid );
-   
+
    // list of all objects
    const VkObjectList vkObjList();
 //TODO: needed?
    //   VkObject*    vkObject( int objId );
-   
+
 private:
    QStringList getVgFlags( VGTOOL::ToolID tId );
    QStringList getTargetFlags();
    void setupOptions();
-   
+
 private:
    Valgrind* m_valgrind;
    VGTOOL::ToolProcessId m_startToolProcess;

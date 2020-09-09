@@ -32,7 +32,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    : QWidget(parent), m_view( view )
 {
    setObjectName( QString::fromUtf8( "LogViewFilterMC" ) );
-   
+
    // ------------------------------------------------------------
    // widgets
    QIcon ico_filter( QString::fromUtf8( ":/vk_icons/icons/refresh.png" ) );
@@ -43,7 +43,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    // XML tag types
    combo_xmltag = new QComboBox();
    connect( combo_xmltag, SIGNAL(currentIndexChanged(int)), this, SLOT(edited()) );
-   
+
    // Compare functions
    cmpWidgStack = new QStackedWidget();
    cmpWidgStack->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Maximum );
@@ -68,7 +68,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    ledit_intfilter->setValidator( new QIntValidator(this) ); // only accept integers.
    connect( ledit_intfilter, SIGNAL(textChanged(QString)), this, SLOT(edited()) );
    connect( ledit_intfilter, SIGNAL(editingFinished()), this, SLOT(refresh()) );
-   
+
    filterWidgStack = new QStackedWidget();
    filterWidgStack->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Maximum );
    filterWidgStack->addWidget( combo_filter );
@@ -77,7 +77,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    vk_assert( filterWidgStack->indexOf( combo_filter    ) == CMP_KND );
    vk_assert( filterWidgStack->indexOf( ledit_strfilter ) == CMP_STR );
    vk_assert( filterWidgStack->indexOf( ledit_intfilter ) == CMP_INT );
-   
+
    // ------------------------------------------------------------
    // layout
    QGridLayout* gridLayout = new QGridLayout( this );
@@ -91,7 +91,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    gridLayout->addWidget( cmpWidgStack,    0, 2 );
    gridLayout->addWidget( filterWidgStack, 0, 3 );
 
-         
+
    // ------------------------------------------------------------
    // initialise xml tag combobox along with all compare types
    combo_xmltag->addItem( "Function",      XML_FUN );
@@ -129,7 +129,7 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    combo_cmp[CMP_INT]->addItem( "!=",            FUN_NEQL  );
    combo_cmp[CMP_INT]->addItem( "<",             FUN_LSTHN );
    combo_cmp[CMP_INT]->addItem( ">",             FUN_GRTHN );
-   
+
    // initialise filter combobox with all 'kind' types (display & matching text)
    combo_filter->addItem( "", "" );
    combo_filter->addItem( "IVF - InvalidFree",         "InvalidFree"         );
@@ -147,21 +147,21 @@ LogViewFilterMC::LogViewFilterMC( QWidget *parent, QTreeWidget* view )
    combo_filter->addItem( "LIL - Leak_IndirectlyLost", "Leak_IndirectlyLost" );
    combo_filter->addItem( "LPL - Leak_PossiblyLost",   "Leak_PossiblyLost"   );
    combo_filter->addItem( "LSR - Leak_StillReachable", "Leak_StillReachable" );
-   
+
    // initialise filters
    setupFilter( 0 );
    ((QComboBox*)cmpWidgStack->currentWidget())->setCurrentIndex( 2 );
-  
+
    //TODO: ContextHelp::addHelp( this, urlValkyrie::XYZ);
 }
 
 void LogViewFilterMC::setupFilter( int idx )
 {
 //   vkDebug( "LogViewFilterMC::setupFilter( %d )", idx );
-   
+
    XmlTagType xmltag = (XmlTagType)combo_xmltag->itemData( idx ).toInt();
    CmpType cmp_type = map_xmltag_cmptype[ xmltag ];
-      
+
    // compares: combobox
    cmpWidgStack->setCurrentIndex( cmp_type );
 
@@ -180,9 +180,9 @@ void LogViewFilterMC::edited()
 void LogViewFilterMC::refresh()
 {
 //   vkDebug( "LogViewFilterMC::refresh()" );
-   
+
    butt_refresh->setEnabled( false );
-   
+
    updateView();
 }
 
@@ -197,7 +197,7 @@ void LogViewFilterMC::updateView()
       vkPrintErr( "No treeview - This shouldn't happen!" );
       return;
    }
-            
+
    VgOutputItem* vgItemTop = (VgOutputItem*)m_view->topLevelItem( 0 );
    if ( vgItemTop == NULL ) {
 //      vkDebug( "No items in treeview." );
@@ -230,12 +230,12 @@ void LogViewFilterMC::showHideItem( VgOutputItem* item )
       vkPrintErr( "NULL item. This shouldn't happen!");
       return;
    }
-   
+
    if ( item->elemType() != VG_ELEM::ERROR ) {
       vkPrintErr( "Not an ERROR item. This shouldn't happen!");
       return;
    }
-   
+
    // get filter from widgets
    // - first get and test the filter value: if empty -> no filter.
    QString str_flt;
@@ -247,24 +247,24 @@ void LogViewFilterMC::showHideItem( VgOutputItem* item )
       QLineEdit* le = (QLineEdit*)filterWidgStack->currentWidget();
       str_flt = le->text();
    }
-   
+
    if ( str_flt.isEmpty() ) {
 //      vkDebug( "Filter value empty -> empty filter" );
       item->setHidden( false );
    }
    else {
       QStringList xml_list;
-      
+
       // get the compare function
       QComboBox* comboCmpFun = (QComboBox*)cmpWidgStack->currentWidget();
       int idx = comboCmpFun->currentIndex();
       CmpFunType cmpFun = (CmpFunType)comboCmpFun->itemData( idx ).toInt();
-      
+
       // get the type to compare
       idx = combo_xmltag->currentIndex();
       XmlTagType xmltag = (XmlTagType)combo_xmltag->itemData( idx ).toInt();
       CmpType cmp_type = map_xmltag_cmptype[ xmltag ];
-      
+
       // get the appropriate xml tag, and compare it with our filter
       //  - a positive match means the error item remains.
       //  - a negative match means the error item is hidden.
@@ -272,40 +272,40 @@ void LogViewFilterMC::showHideItem( VgOutputItem* item )
       switch ( xmltag ) {
       case XML_KND: // Kind
          vk_assert( cmp_type == CMP_KND );
-         res_cmp = xmlCompare( item, "kind", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "kind", str_flt, cmpFun, cmp_type );
          break;
       case XML_LBY: // Leaked Bytes
          vk_assert( cmp_type == CMP_INT );
-         res_cmp = xmlCompare( item, "leakedbytes", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "leakedbytes", str_flt, cmpFun, cmp_type );
          break;
       case XML_LBL: // Leaked Blocks
          vk_assert( cmp_type == CMP_INT );
-         res_cmp = xmlCompare( item, "leakedblocks", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "leakedblocks", str_flt, cmpFun, cmp_type );
          break;
       case XML_OBJ: // Object
          vk_assert( cmp_type == CMP_STR );
-         res_cmp = xmlCompare( item, "obj", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "obj", str_flt, cmpFun, cmp_type );
          break;
       case XML_FUN: // Function
          vk_assert( cmp_type == CMP_STR );
-         res_cmp = xmlCompare( item, "fn", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "fn", str_flt, cmpFun, cmp_type );
          break;
       case XML_DIR: // Directory
          vk_assert( cmp_type == CMP_STR );
-         res_cmp = xmlCompare( item, "dir", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "dir", str_flt, cmpFun, cmp_type );
          break;
       case XML_FIL: // File
          vk_assert( cmp_type == CMP_STR );
-         res_cmp = xmlCompare( item, "file", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "file", str_flt, cmpFun, cmp_type );
          break;
       case XML_LIN: // Line
          vk_assert( cmp_type == CMP_INT );
-         res_cmp = xmlCompare( item, "line", str_flt, cmpFun, cmp_type );         
+         res_cmp = xmlCompare( item, "line", str_flt, cmpFun, cmp_type );
          break;
       default:
          vk_assert_never_reached();
       }
-      
+
       item->setHidden( !res_cmp );
    }
 }
@@ -317,7 +317,7 @@ void LogViewFilterMC::enableFilter( bool enable )
       this->show();
    else
       this->hide();
-   
+
    updateView();
 }
 
@@ -349,9 +349,9 @@ bool LogViewFilterMC::xmlCompare( VgOutputItem* errItem, const QString& tag,
    default:
       vk_assert_never_reached();
    }
-   
+
 //   vkDebug( "LogViewFilterMC::xmlCompare: res_cmp: '%d'", res_cmp );
-   
+
    return res_cmp;
 }
 
@@ -371,7 +371,7 @@ bool LogViewFilterMC::compare_strings( const QStringList& lst_xml,
    bool res_cmp = false;
    foreach ( QString str_xml, lst_xml ) {
 //      vkDebug( "LogViewFilterMC::compare_strings(%d): '%s'' - '%s'", cmpfuntype, qPrintable( str_xml ), qPrintable( str_flt ) );
-      
+
       switch ( cmpfuntype ) {
       case FUN_EQL:   res_cmp = ( str_xml ==          str_flt  ); break;
       case FUN_NEQL:  res_cmp = ( str_xml !=          str_flt  ); break;
@@ -390,7 +390,7 @@ bool LogViewFilterMC::compare_strings( const QStringList& lst_xml,
       if ( res_cmp )
          return true;
    }
-   
+
    // no match: filter out (hide) this item
    return false;
 }
@@ -422,9 +422,9 @@ bool LogViewFilterMC::compare_integers( const QStringList& lst_xml,
 //         vkDebug( "Failed conversion (str_xml) to integer: '%s'", qPrintable(str_xml) );
          continue;
       }
-      
+
 //      vkDebug( "LogViewFilterMC::compare_integers: '%d'' - '%d'", int_xml, int_flt );
-      
+
       switch ( cmpfuntype ) {
       case FUN_EQL:   res_cmp = (int_xml == int_flt); break;
       case FUN_NEQL:  res_cmp = (int_xml != int_flt); break;
@@ -433,7 +433,7 @@ bool LogViewFilterMC::compare_integers( const QStringList& lst_xml,
       default:
          vk_assert_never_reached();
       }
-      
+
       // match found - don't filter out this item!
       if ( res_cmp )
          return true;

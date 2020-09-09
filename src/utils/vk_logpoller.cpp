@@ -26,9 +26,9 @@ VkLogPoller::VkLogPoller( QObject* parent )
    : QObject( parent )
 {
    this->setObjectName( "logpoller" );
-   
+
    timer = new QTimer( this );
-   
+
    connect( timer, SIGNAL( timeout() ),
             this,  SIGNAL( logUpdated() ) );
 }

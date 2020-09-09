@@ -41,13 +41,13 @@ class HelpAbout : public QDialog
 public:
    HelpAbout( QWidget* parent, HELPABOUT::TabId tabid );
    ~HelpAbout();
-   
+
 private slots:
    void showTab( int );
-   
+
 private:
    QString title;
-   
+
    QTabWidget* tabParent;
    QTextBrowser* aboutVk;
    QTextBrowser* license;

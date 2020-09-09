@@ -60,7 +60,7 @@ void Memcheck::setupOptions()
       "search for memory leaks at exit?",
       urlMemcheck::Leakcheck, VkOPT::ARG_STRING, VkOPT::WDG_COMBO
    );
-   
+
    // ------------------------------------------------------------
    // leak-resolution
    options.addOpt(
@@ -71,7 +71,7 @@ void Memcheck::setupOptions()
       "how much backtrace merging in leak check",
       urlMemcheck::Leakres, VkOPT::ARG_STRING, VkOPT::WDG_COMBO
    );
-   
+
    // ------------------------------------------------------------
    // leak-resolution
    options.addOpt(
@@ -82,7 +82,7 @@ void Memcheck::setupOptions()
       "show reachable blocks in leak check?",
       urlMemcheck::Showreach, VkOPT::ARG_BOOL, VkOPT::WDG_CHECK
    );
-   
+
    // ------------------------------------------------------------
    // undef-value-errors
    //options.addOpt(
@@ -93,7 +93,7 @@ void Memcheck::setupOptions()
    //      "check for undefined value errors?",
    //      urlMemcheck::UndefVal, VkOPT::ARG_BOOL, VkOPT::WDG_CHECK
    //      );
-   
+
    // ------------------------------------------------------------
    // track-origins
    options.addOpt(
@@ -104,7 +104,7 @@ void Memcheck::setupOptions()
       "show the origins of uninitialised values?",
       urlMemcheck::TrackOri, VkOPT::ARG_BOOL, VkOPT::WDG_CHECK
    );
-   
+
    // ------------------------------------------------------------
    // partial-loads-ok
    options.addOpt(
@@ -115,7 +115,7 @@ void Memcheck::setupOptions()
       "too hard to explain here; see manual",
       urlMemcheck::Partial, VkOPT::ARG_BOOL, VkOPT::WDG_CHECK
    );
-   
+
    // ------------------------------------------------------------
    // freelist-vol
    options.addOpt(
@@ -126,7 +126,7 @@ void Memcheck::setupOptions()
       "volume of freed blocks queue",
       urlMemcheck::Freelist, VkOPT::ARG_UINT, VkOPT::WDG_LEDIT
    );
-   
+
    // ------------------------------------------------------------
    // workaround-gcc296-bugs
    options.addOpt(
@@ -137,7 +137,7 @@ void Memcheck::setupOptions()
       "self explanatory",
       urlMemcheck::gcc296, VkOPT::ARG_BOOL, VkOPT::WDG_CHECK
    );
-   
+
    // ------------------------------------------------------------
    // alignment
    options.addOpt(
@@ -157,11 +157,11 @@ void Memcheck::setupOptions()
 int Memcheck::checkOptArg( int optid, QString& argval )
 {
    vk_assert( optid >= 0 && optid < MEMCHECK::NUM_OPTS );
-   
+
    int errval = PARSED_OK;
 
    VkOption* opt = getOption( optid );
-   
+
    switch ( (MEMCHECK::mcOptId)optid ) {
    case MEMCHECK::PARTIAL:
    case MEMCHECK::FREELIST:
@@ -173,7 +173,7 @@ int Memcheck::checkOptArg( int optid, QString& argval )
    case MEMCHECK::ALIGNMENT:
       opt->isValidArg( &errval, argval );
       break;
-      
+
       // when using xml output from valgrind, this option is preset to
       // 'full' by valgrind, so this option should not be used.
    case MEMCHECK::LEAK_CHECK:
@@ -183,11 +183,11 @@ int Memcheck::checkOptArg( int optid, QString& argval )
       vkPrintErr( " - Memcheck presets this option to 'full' when generating the required xml output." );
       vkPrintErr( " - See valgrind/docs/internals/xml_output.txt." );
       break;
-      
+
    default:
       vk_assert_never_reached();
    }
-   
+
    return errval;
 }
 

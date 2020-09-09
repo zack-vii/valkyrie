@@ -56,7 +56,7 @@ ToolView::ToolView( QWidget* parent, VGTOOL::ToolID id )
    //  - Note: this reparents it to MainWindow, which is fine.
    toolToolBar = new QToolBar( this );
    (( MainWindow* )parent )->addToolBar( Qt::TopToolBarArea, toolToolBar );
-   
+
    // Create toolMenu, and add its QAction to MainWindow
    //  - Note: remains our child: only the 'action' is added to MainWindow
    toolMenu = new QMenu( this );
@@ -70,21 +70,21 @@ ToolView::ToolView( QWidget* parent, VGTOOL::ToolID id )
 ToolView::~ToolView()
 {
    // Cleanup the menus/toolbars for this ToolView
-   
+
    //TODO: this still right? parent is MainWindow these days, no?
-   
+
    // We need to get access to the mainwindow:
    //  - this->widgetStack->ToolViewStack->MainWindow
    QWidget* prnt = this->parentWidget()->parentWidget()->parentWidget();
    MainWindow* mw = ( MainWindow* )prnt;
-   
+
    if ( mw ) {
       if ( toolMenu ) {
          // The toolMenu remains ours, so no need to reparent,
          // but do unregister the action nicely:
          mw->removeToolMenuAction( toolMenu->menuAction() );
       }
-      
+
       if ( toolToolBar ) {
          // Remove toolbar and reparent to this.
          mw->removeToolBar( toolToolBar );
@@ -113,7 +113,7 @@ void ToolView::showToolMenus()
    if ( toolToolBar ) {
       toolToolBar->setVisible( true );
    }
-   
+
    if ( toolMenu ) {
       toolMenu->menuAction()->setVisible( true );
    }
@@ -128,7 +128,7 @@ void ToolView::hideToolMenus()
    if ( toolToolBar ) {
       toolToolBar->setVisible( false );
    }
-   
+
    if ( toolMenu ) {
       toolMenu->menuAction()->setVisible( false );
    }
@@ -144,14 +144,14 @@ void ToolView::hideToolMenus()
 void ToolView::openLogFile()
 {
    //vkDebug( "ToolView::openLogFile()" );
-   
+
    QString log_file = vkDlgCfgGetFile( this, "valkyrie/view-log" );
-   
+
    // user might have clicked Cancel
    if ( log_file.isEmpty() ) {
       return;
    }
-   
+
    // updates config (as does cmd line --view-cfg...)
    emit logFileChosen( log_file );
 
@@ -181,10 +181,10 @@ ToolViewStack::ToolViewStack( QWidget* parent )
    : QFrame( parent )
 {
    setObjectName( QString::fromUtf8( "ToolViewStack" ) );
-   
+
    widgetStack = new QStackedWidget( this );
    widgetStack->setObjectName( QString::fromUtf8( "widgetStack" ) );
-   
+
    QHBoxLayout* layout = new QHBoxLayout;
    layout->setMargin( 0 );
    layout->setSpacing( 0 );
@@ -223,10 +223,10 @@ void ToolViewStack::removeView( ToolView* toolview )
    toolview->hideToolMenus();
    widgetStack->removeWidget( toolview );
    delete toolview;
-   
+
    // if there's a view left on the stack: show it
    ToolView* toolview_next = ( ToolView* )widgetStack->widget( widgetStack->count() - 1 );
-   
+
    if ( toolview_next ) {
       toolview_next->showToolMenus();
       widgetStack->setCurrentWidget( toolview_next );
@@ -241,12 +241,12 @@ ToolView* ToolViewStack::findView( VGTOOL::ToolID toolId ) const
 {
    for ( int i = 0; i < widgetStack->count(); ++i ) {
       ToolView* tv = ( ToolView* )widgetStack->widget( i );
-      
+
       if ( tv->getToolId() == toolId ) {
          return tv;
       }
    }
-   
+
    return 0;
 }
 
@@ -269,7 +269,7 @@ VGTOOL::ToolID ToolViewStack::currentToolId()
    if ( widgetStack->currentIndex() >= 0 ) {
       return currentView()->getToolId();
    }
-   
+
    return VGTOOL::ID_NULL;
 }
 
@@ -282,11 +282,11 @@ void ToolViewStack::raiseView( ToolView* toolview )
 {
    // cleanup last view, if there was one
    ToolView* tv_last = currentView();
-   
+
    if ( tv_last && tv_last != toolview ) {
       tv_last->hideToolMenus();
    }
-   
+
    // prepare next view
    toolview->showToolMenus();
    widgetStack->setCurrentWidget( toolview );
@@ -302,7 +302,7 @@ void ToolViewStack::print( QString str ) const
    cerr << endl << str.toLatin1().data() << endl;
    cerr << "current idx: " << widgetStack->currentIndex() << endl;
    cerr << "num views: " << widgetStack->count() << endl;
-   
+
    for ( int i = 0; i < widgetStack->count(); ++i ) {
       ToolView* tv = ( ToolView* )widgetStack->widget( i );
       cerr << "idx: " << i << " => tvid: " << tv->getToolId() << endl;

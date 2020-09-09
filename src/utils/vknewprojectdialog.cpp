@@ -51,12 +51,12 @@ VkNewProjectDialog::VkNewProjectDialog( QWidget* parent )
    QGroupBox* groupbox = new QGroupBox( this );
    groupbox->setObjectName( QString::fromUtf8( "groupbox" ) );
    topVLayout->addWidget( groupbox );
-   
+
    // ------------------------------------------------------------
    // grid
    QGridLayout* grid = new QGridLayout( groupbox );
    grid->setObjectName( QString::fromUtf8( "grid" ));
-   
+
    // ------------------------------------------------------------
    // content
    QLabel* lbl_name = new QLabel( "Name: ", groupbox );
@@ -88,7 +88,7 @@ VkNewProjectDialog::VkNewProjectDialog( QWidget* parent )
    connect( buttonBox, SIGNAL( rejected() ), this, SLOT( reject() ) ); // Cancel
    connect( buttonBox, SIGNAL( accepted() ), this, SLOT( accept() ) ); // Ok
    topVLayout->addWidget( buttonBox );
-   
+
 
    // ------------------------------------------------------------
    // defaults
@@ -99,7 +99,7 @@ VkNewProjectDialog::VkNewProjectDialog( QWidget* parent )
       start_dir = fi.isDir() ? fi.absoluteFilePath() : fi.absolutePath();
    }
    edit_dir->setText( start_dir );
-   
+
    edit_name->setText( "untitled" );
 
    edit_style_normal = edit_dir->styleSheet();
@@ -117,7 +117,7 @@ void VkNewProjectDialog::accept()
       if ( ok == MsgBox::vkNo ) {
          return; // try again
       }
-      
+
    }
 
    // save chosen path to cfg
@@ -172,7 +172,7 @@ void VkNewProjectDialog::checkInput()
 void VkNewProjectDialog::browseDir()
 {
    QString dir_new = vkDlgGetDir( this, edit_dir->text() );
-   
+
    if ( !dir_new.isEmpty() ) { // user might have clicked Cancel
       edit_dir->setText( dir_new );
    }

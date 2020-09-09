@@ -36,10 +36,10 @@ class VkOptionsDialog : public QDialog
 public:
    VkOptionsDialog( QWidget* );
    ~VkOptionsDialog();
-   
+
    // setup and return new current page
    QWidget* setCurrentPage( int idx );
-   
+
 private:
    void setupLayout();
    void keyPressEvent( QKeyEvent* event ); // overloaded
@@ -54,7 +54,7 @@ private slots:
 
 signals:
    void flagsChanged();
-   
+
 private:
    QListWidget*      contentsListWidget;
    QStackedWidget*   optionPages;

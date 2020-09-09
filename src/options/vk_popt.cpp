@@ -25,12 +25,12 @@ vkPoptOption nullOpt()
 const char* vkPoptPeekArg( vkPoptContext con )
 {
    const char* ret = NULL;
-   
+
    if ( con && con->leftovers != NULL &&
         con->nextLeftover < con->numLeftovers ) {
       ret = con->leftovers[con->nextLeftover];
    }
-   
+
    return ret;
 }
 
@@ -38,12 +38,12 @@ const char* vkPoptPeekArg( vkPoptContext con )
 const char* vkPoptGetArg( vkPoptContext con )
 {
    const char* ret = NULL;
-   
+
    if ( con && con->leftovers != NULL &&
         con->nextLeftover < con->numLeftovers ) {
       ret = con->leftovers[con->nextLeftover++];
    }
-   
+
    return ret;
 }
 
@@ -54,7 +54,7 @@ const char** vkPoptGetArgs( vkPoptContext con )
         con->numLeftovers == con->nextLeftover ) {
       return NULL;
    }
-   
+
    // some apps like [like RPM ;-) ] need this NULL terminated
    con->leftovers[con->numLeftovers] = NULL;
    return ( con->leftovers + con->nextLeftover );
@@ -65,13 +65,13 @@ vkPoptContext vkPoptGetContext( int argc, const char** argv,
                                 const vkPoptOption* options )
 {
    vkPoptContext con = ( vkPoptContext )malloc( sizeof( *con ) );
-   
+
    if ( con == NULL ) {
       return NULL;
    }
-   
+
    memset( con, 0, sizeof( *con ) );
-   
+
    con->os = con->optionStack;
    con->os->argc  = argc;
    con->os->argv  = argv;
@@ -82,7 +82,7 @@ vkPoptContext vkPoptGetContext( int argc, const char** argv,
    con->finalArgvAlloced = argc * 2;
    con->finalArgv = ( const char** )calloc( con->finalArgvAlloced,
                                             sizeof( *con->finalArgv ) );
-                                            
+
    return con;
 }
 
@@ -103,19 +103,19 @@ const vkPoptOption* vkFindOption( const vkPoptOption* opt,
    if ( singleDash && !shortFlag && ( longFlag && *longFlag == '\0' ) ) {
       shortFlag = '-';
    }
-   
+
    for ( ; opt->longFlag || opt->shortFlag || opt->arg; opt++ ) {
-   
+
       if ( opt->arg != NULL ) {     // is-a table
          // recurse on included sub-tables.
          const vkPoptOption* opt2 = vkFindOption( opt->arg, longFlag,
                                                   shortFlag, singleDash );
-                                                  
+
          if ( opt2 == NULL ) {
             // no match in sub-table
             continue;
          }
-         
+
          // found match: return option
          return opt2;
       }
@@ -125,19 +125,19 @@ const vkPoptOption* vkFindOption( const vkPoptOption* opt,
             // longFlag match
             break;
          }
-         
+
          if ( shortFlag && shortFlag == opt->shortFlag ) {
             // shortFlag match
             break;
          }
       }
    }
-   
+
    if ( !opt->longFlag && !opt->shortFlag ) {
       // end of optArr: no match found
       return NULL;
    }
-   
+
    // found match
    return opt;
 }
@@ -148,17 +148,17 @@ static const char* vkExpandNextArg( const char* s )
    char* t, *te;
    size_t tn = strlen( s ) + 1;
    char c;
-   
+
    te = t = ( char* )malloc( tn );;
-   
+
    if ( t == NULL ) {
       return NULL;
    }
-   
+
    while (( c = *s++ ) != '\0' ) {
       *te++ = c;
    }
-   
+
    *te = '\0';
    // memory leak, hard to plug
    t = ( char* )realloc( t, strlen( t ) + 1 );
@@ -177,68 +177,68 @@ int vkPoptGetNextOpt( vkPoptContext con,
 {
    const vkPoptOption* opt = NULL;
    int done = 0;
-   
+
    if ( con == NULL ) {
       done_vk_flags = true;
       return PARSED_OK;
    }
-   
+
    while ( !done ) {
       const char* origOptString = NULL;
       const char* longArg = NULL;
       int shorty = 0;
-      
+
       while ( !con->os->nextCharArg &&
               con->os->next == con->os->argc &&
               con->os > con->optionStack ) {
          vkCleanOSE( con->os-- );
       }
-      
+
       if ( !con->os->nextCharArg &&
            con->os->next == con->os->argc ) {
          done_vk_flags = true;
          *opt_ret = opt;
          return PARSED_OK;
       }
-      
+
       // process next long option
       if ( !con->os->nextCharArg ) {
          char* localOptString, * optString;
          int thisopt;
          thisopt = con->os->next;
-         
+
          if ( con->os->argv != NULL ) {
             origOptString = con->os->argv[con->os->next++];
          }
-         
+
          if ( origOptString == NULL ) {
             return PERROR_BADOPT;
          }
-         
+
          if ( strcmp( origOptString, "--" ) == 0 ) {
             return PERROR_BADQUOTE;
          }
-         
+
          if ( con->restLeftover || *origOptString != '-' ) {
             if ( con->flags & PCONTEXT_POSIXMEHARDER ) {
                con->restLeftover = 1;
             }
-            
+
             if ( con->leftovers != NULL ) {
                con->leftovers[con->numLeftovers++] = origOptString;
             }
-            
+
             continue;
          }
-         
+
          // make a copy we can hack at
          localOptString = optString =
             strcpy(( char* )alloca( strlen( origOptString ) + 1 ), origOptString );
-                             
+
          if ( optString[0] == '\0' ) {
             return PERROR_BADOPT;
          }
-         
+
          if ( optString[1] == '-' && !optString[2] ) {
             con->restLeftover = 1;
             continue;
@@ -247,36 +247,36 @@ int vkPoptGetNextOpt( vkPoptContext con,
             char* oe;
             int singleDash;
             optString++;
-            
+
             if ( *optString == '-' ) {
                singleDash = 0, optString++;
             }
             else {
                singleDash = 1;
             }
-            
+
             // Check for "--long=arg" option
             for ( oe = optString; *oe && *oe != '='; oe++ )
                { };
-               
+
             if ( *oe == '=' ) {
                // FIX: don't use '=' for shortopts
                if ( singleDash ) {
                   return PERROR_NODASH;
                }
-               
+
                *oe++ = '\0';
-               
+
                // longArg is mapped back to persistent storage.
                longArg = origOptString + ( oe - localOptString );
-               
+
                // FIX: catch cases where --longarg=<no-arg>
                if ( strlen( longArg ) == 0 ) {
                   printf( "1: returning PERROR_NOARG\n" );
                   return PERROR_NOARG;
                }
             }
-            
+
 #if 0
             else if ( singleDash == 0 ) {
                /* FIX: catch cases where we didn't find an '=',
@@ -284,18 +284,18 @@ int vkPoptGetNextOpt( vkPoptContext con,
                //printf("2: returning PERROR_NOARG\n");
                return PERROR_NOARG;
             }
-            
+
 #endif
-            
+
             opt = vkFindOption( con->options, optString,
                                 '\0', singleDash );
-                                
+
             if ( !opt && !singleDash ) {
                printf( "returning PERROR_BADOPT\n" );
                return PERROR_BADOPT;
             }
          }
-         
+
          if ( !opt ) {
             con->os->nextCharArg = origOptString + 1;
          }
@@ -303,34 +303,34 @@ int vkPoptGetNextOpt( vkPoptContext con,
             shorty = 0;
          }
       }
-      
+
       // process next short option
       if ( con->os->nextCharArg ) {
          origOptString = con->os->nextCharArg;
          con->os->nextCharArg = NULL;
-         
+
          opt = vkFindOption( con->options, NULL, *origOptString, 0 );
-         
+
          if ( !opt ) {
             return PERROR_BADOPT;
          }
-         
+
          shorty = 1;
-         
+
          origOptString++;
-         
+
          if ( *origOptString != '\0' ) {
             con->os->nextCharArg = origOptString;
          }
       }
-      
+
       if ( opt == NULL ) {
          return PERROR_BADOPT;
       }
-      
+
       if ( opt->argType != VkOPT::ARG_NONE ) {
          con->os->nextArg = ( const char* )_free( con->os->nextArg );
-         
+
          if ( longArg ) {
             longArg = vkExpandNextArg( longArg );
             con->os->nextArg = longArg;
@@ -345,7 +345,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
                     con->os > con->optionStack ) {
                vkCleanOSE( con->os-- );
             }
-            
+
             if ( con->os->next == con->os->argc ) {
                // FIX: con->os->argv not defined
                return PERROR_NOARG;
@@ -360,29 +360,29 @@ int vkPoptGetNextOpt( vkPoptContext con,
                }
             }
          }
-         
+
          longArg = NULL;
-         
+
          // store the argument value for checking
          if ( con->os->nextArg ) {
             sprintf( arg_val, "%s", con->os->nextArg );
          }
       } // end of "if ! VkOPT::ARG_NONE"
-      
+
       if ( opt->optId >= 0 ) {  // is-a leaf
          done = 1;
       }
-      
+
       if (( con->finalArgvCount + 2 ) >= ( con->finalArgvAlloced ) ) {
          con->finalArgvAlloced += 10;
          con->finalArgv =
             (const char**)realloc( con->finalArgv,
                                    sizeof( *con->finalArgv ) * con->finalArgvAlloced );
       }
-      
+
       if ( con->finalArgv != NULL ) {
          char* s = ( char* )malloc(( opt->longFlag ? strlen( opt->longFlag ) : 0 ) + 3 );
-         
+
          if ( s != NULL ) {
             if ( opt->longFlag ) {
                sprintf( s, "--%s", opt->longFlag );
@@ -390,19 +390,19 @@ int vkPoptGetNextOpt( vkPoptContext con,
             else {
                sprintf( s, "-%c", opt->shortFlag );
             }
-            
+
             con->finalArgv[con->finalArgvCount++] = s;
          }
          else {
             con->finalArgv[con->finalArgvCount++] = NULL;
          }
       }
-      
+
       if (( opt->arg == NULL/* leaf */ ) &&
           ( opt->argType != VkOPT::ARG_NONE ) ) {
          if ( con->finalArgv != NULL && con->os->nextArg ) {
             char* s = ( char* )malloc( strlen( con->os->nextArg ) + 1 );
-            
+
             if ( s == NULL ) {
                vkPrintErr( "virtual memory exhausted." );
                exit( EXIT_FAILURE );
@@ -414,7 +414,7 @@ int vkPoptGetNextOpt( vkPoptContext con,
          }
       }
    }  // end while ( !done )
-   
+
    //vk_assert( opt != NULL );
    *opt_ret = opt;
    return PARSED_OK;
@@ -426,31 +426,31 @@ vkPoptContext vkPoptFreeContext( vkPoptContext con )
    if ( con == NULL ) {
       return con;
    }
-   
+
    // poptResetContext( con );
    int i;
-   
+
    while ( con->os > con->optionStack ) {
       vkCleanOSE( con->os-- );
    }
-   
+
    con->os->nextCharArg = NULL;
    con->os->nextArg  = NULL;
    con->os->next     = 1;      // skip argv[0]
    con->numLeftovers = 0;
    con->nextLeftover = 0;
    con->restLeftover = 0;
-   
+
    if ( con->finalArgv != NULL )
       for ( i = 0; i < con->finalArgvCount; i++ ) {
          con->finalArgv[i] = ( const char* )_free( con->finalArgv[i] );
       }
-      
+
    con->finalArgvCount = 0;
-   
+
    con->leftovers = ( const char** )_free( con->leftovers );
    con->finalArgv = ( const char** )_free( con->finalArgv );
-   
+
    con = ( vkPoptContext )_free( con );
    return con;
 }
@@ -459,11 +459,11 @@ vkPoptContext vkPoptFreeContext( vkPoptContext con )
 const char* vkPoptBadOption( vkPoptContext con )
 {
    struct optionStackEntry* os = NULL;
-   
+
    if ( con != NULL ) {
       os = con->optionStack;
    }
-   
+
    return ( os && os->argv ? os->argv[os->next - 1] : NULL );
 }
 
@@ -480,11 +480,11 @@ static const char* vkGetHelpDesc( const vkPoptOption* opt )
    if ( opt->argType == VkOPT::ARG_NONE ) {
       return NULL;
    }
-   
+
    if ( opt->helpdesc ) {
       return opt->helpdesc;
    }
-   
+
    return NULL;
 }
 
@@ -504,25 +504,25 @@ static void vkSingleOptionHelp( FILE* fp,
    char* defs = NULL;
    char* left;
    int nb = leftColWidth + 1;
-   
+
    // make sure there's more than enough room in target buffer.
    if ( opt->longFlag ) {
       nb += strlen( opt->longFlag );
    }
-   
+
    if ( helpdesc ) {
       nb += strlen( helpdesc );
    }
-   
+
    left = ( char* )malloc( nb );
-   
+
    if ( left == NULL ) {
       return;
    }
-   
+
    left[0] = '\0';
    left[leftColWidth] = '\0';
-   
+
    if ( opt->longFlag && opt->shortFlag ) {
       sprintf( left, "-%c, --%s", opt->shortFlag, opt->longFlag );
    }
@@ -532,11 +532,11 @@ static void vkSingleOptionHelp( FILE* fp,
    else if ( opt->longFlag ) {
       sprintf( left, "--%s", opt->longFlag );
    }
-   
+
    if ( !*left ) {
       goto out;
    }
-   
+
    if ( helpdesc ) {
       char* le = left + strlen( left );
       *le++ = ' ';
@@ -544,7 +544,7 @@ static void vkSingleOptionHelp( FILE* fp,
       le += strlen( le );
       *le = '\0';
    }
-   
+
    if ( help ) {
       fprintf( fp, "  %-*s", leftColWidth, left );
    }
@@ -552,52 +552,52 @@ static void vkSingleOptionHelp( FILE* fp,
       fprintf( fp, "  %s\n", left );
       goto out;
    }
-   
+
    left = ( char* )_free( left );
-   
+
    if ( defs ) {
       help = defs;
       defs = NULL;
    }
-   
+
    helpLength = strlen( help );
-   
+
    while ( helpLength > lineLength ) {
       const char* ch;
       char format[100];
-      
+
       ch = help + lineLength - 1;
-      
+
       while ( ch > help && !isspace( *ch ) ) {
          ch--;
       }
-      
+
       if ( ch == help )  {
          break;    // give up
       }
-      
+
       while ( ch > ( help + 1 ) && isspace( *ch ) ) {
          ch--;
       }
-      
+
       ch++;
-      
+
       sprintf( format, "%%.%ds\n%%%ds",
                ( int )( ch - help ), indentLength );
       fprintf( fp, format, help, " " );
       help = ch;
-      
+
       while ( isspace( *help ) && *help ) {
          help++;
       }
-      
+
       helpLength = strlen( help );
    }
-   
+
    if ( helpLength ) {
       fprintf( fp, "%s\n", help );
    }
-   
+
 out:
    defs = ( char* )_free( defs );
    left = ( char* )_free( left );
@@ -609,49 +609,49 @@ static int vkMaxArgWidth( const vkPoptOption* opt )
    int max = 0;
    int len = 0;
    const char* s;
-   
+
    if ( opt == NULL ) {
       return 0;
    }
-   
+
    for ( ; opt->longFlag || opt->shortFlag || opt->arg; opt++ ) {
-   
+
       if ( opt->arg != NULL ) {     // is-a table
          // recurse on included sub-tables.
          len = vkMaxArgWidth( opt->arg );
-         
+
          if ( len > max ) {
             max = len;
          }
       }
       else {                        // is-a leaf
          len = sizeof( "  " ) - 1;
-         
+
          if ( opt->shortFlag != '\0' ) {
             len += sizeof( "-X" ) - 1;
          }
-         
+
          if ( opt->shortFlag != '\0' && opt->longFlag ) {
             len += sizeof( ", " ) - 1;
          }
-         
+
          if ( opt->longFlag ) {
             len += sizeof( "--" ) - 1;
             len += strlen( opt->longFlag );
          }
-         
+
          s = vkGetHelpDesc( opt );
-         
+
          if ( s ) {
             len += sizeof( "=" ) - 1 + strlen( s );
          }
-         
+
          if ( len > max ) {
             max = len;
          }
       }
    }
-   
+
    return max;
 }
 
@@ -666,7 +666,7 @@ static void vkTableHelp( FILE* fp, const vkPoptOption* opt )
    if ( opt == NULL ) {
       return;
    }
-   
+
    // recurse over all tables
    for ( ; opt->longFlag || opt->shortFlag || opt->arg; opt++ ) {
       if ( opt->arg != NULL ) {     // is-a table
@@ -692,23 +692,23 @@ void vkPoptPrintHelp( vkPoptContext con, FILE* fp,
                       const char* tableName )
 {
    const char* fn;
-   
+
    fprintf( fp, "\nUsage:" );
    fn = con->optionStack->argv[0];
-   
+
    if ( fn != NULL ) {
       if ( strchr( fn, '/' ) ) {
          fn = strrchr( fn, '/' ) + 1;
       }
-      
+
       fprintf( fp, " %s", fn );
    }
-   
+
    fprintf( fp, " %s",
             "[valkyrie-opts] [valgrind-opts] [prog-and-args]\n" );
-            
+
    leftColWidth = vkMaxArgWidth( con->options );
-   
+
    if ( tableName == NULL ) {
       // print all tables
       vkTableHelp( fp, con->options );
@@ -716,14 +716,14 @@ void vkPoptPrintHelp( vkPoptContext con, FILE* fp,
    else {
       // trawl through con->options till we find the right table
       const vkPoptOption* opt;
-      
+
       for ( opt = con->options; ( opt != NULL ) &&
             ( opt->optGrp != NULL ); opt++ ) {
          if ( strcmp( opt->optGrp, tableName ) == 0 ) {
             break;
          }
       }
-      
+
       // print the table:
       if ( opt != NULL ) {
          if ( opt->optGrp != NULL ) {
@@ -733,9 +733,9 @@ void vkPoptPrintHelp( vkPoptContext con, FILE* fp,
             vkPrintErr( "Error: vkPoptPrintHelp(): No match found for table '%s'.",
                         tableName );
          }
-         
+
          vkTableHelp( fp, opt->arg );
       }
    }
-   
+
 }

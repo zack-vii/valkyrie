@@ -66,11 +66,11 @@ class ToolView : public QWidget
 {
    Q_OBJECT
    friend class ToolViewStack; // needs access to protected members
-   
+
 public:
    ToolView( QWidget* parent, VGTOOL::ToolID toolId );
    ~ToolView();
-   
+
    virtual VgLogView* createVgLogView() = 0;
 
    void setToolFont( QFont font );
@@ -82,26 +82,26 @@ protected:
    virtual void setupLayout() = 0;
    virtual void setupActions() = 0;
    virtual void setupToolBar() = 0;
-   
+
 protected:
    void showToolMenus();
    void hideToolMenus();
    VGTOOL::ToolID getToolId() {
       return toolId;
    }
-   
+
 protected slots:
    void openLogFile();
-   
+
 public slots:
    // called by the view's object
    virtual void setState( bool run ) = 0;
-   
+
 signals:
    // start appropriate process for given runState
    void run( VGTOOL::ToolProcessId procId );
    void logFileChosen( QString logFilename );
-   
+
 protected:
    VGTOOL::ToolID toolId;
    QToolBar*      toolToolBar;
@@ -117,18 +117,18 @@ class ToolViewStack : public QFrame
 public:
    ToolViewStack( QWidget* parent );
    ~ToolViewStack();
-   
+
    void addView( ToolView* toolview );
    void removeView( ToolView* toolview );
-   
+
    ToolView* findView( VGTOOL::ToolID toolId ) const;
-   
+
    ToolView*      currentView();     // return currently-visible view
    VGTOOL::ToolID currentToolId();   // return toolId of currently-visible view
-   
+
 public slots:
    void raiseView( ToolView* tv );
-   
+
 private:
    void print( QString str ) const; // for debugging only.
 

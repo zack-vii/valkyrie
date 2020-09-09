@@ -40,21 +40,21 @@ SuppFrame::SuppFrame( bool isFirstFrame, QWidget* parent )
    : QWidget( parent )
 {
    setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
-   
+
    QFontMetrics fm( qApp->font() );
    int width_col1 = fm.width( SIZE_COL1 );
    width_col1 -= 5; // compensate for margin of central widget
-   
+
    QHBoxLayout* topHLayout = new QHBoxLayout( this );
    topHLayout->setObjectName( QString::fromUtf8( "topHLayout" ) );
    topHLayout->setMargin(0);
-   
+
    frame_cmb = new QComboBox();
    frame_cmb->setMinimumWidth( width_col1 );
    frame_cmb->addItems( SuppRanges::instance().getFrameTypes() );
-   
+
    frame_le  = new QLineEdit();
-   
+
    frame_but = new QPushButton("-");
    if ( isFirstFrame ) frame_but->hide();
    frame_but->setFixedWidth( 30 );
@@ -88,7 +88,7 @@ VkSuppressionsDialog::VkSuppressionsDialog( QWidget *parent )
    setWindowIcon( icon_vk );
 
    setMinimumWidth( 500 ); // allow reasonable length paths
-   
+
    setupLayout();
 
    ContextHelp::addHelp( this, urlValkyrie::optsDlg );
@@ -104,18 +104,18 @@ void VkSuppressionsDialog::setupLayout()
    QVBoxLayout* topVLayout = new QVBoxLayout( this );
    topVLayout->setObjectName( QString::fromUtf8( "topVLayout" ) );
    setLayout( topVLayout );
-   
+
    // ------------------------------------------------------------
    QWidget* layoutWidget = new QWidget( this );
    layoutWidget->setObjectName( QString::fromUtf8( "layoutWidget" ) );
    topVLayout->addWidget( layoutWidget, 0 );
-   
+
    QGridLayout* gridLayout = new QGridLayout( layoutWidget );
    gridLayout->setColumnStretch( 0, 0 );
    gridLayout->setColumnStretch( 1, 1 );
    gridLayout->setColumnMinimumWidth( 0, width_col1 );
    gridLayout->setMargin(0);
-   
+
    // ------------------------------------------------------------
    // Name
    QLabel* name_lbl = new QLabel("Name:");
@@ -138,7 +138,7 @@ void VkSuppressionsDialog::setupLayout()
 
    // Trigger Tool change setup Type and Aux
    ToolChanged( 0 );
-   
+
    // (start of) Call chain
    QLabel* cchn_lbl   = new QLabel("Call Chain:");
    QPushButton* cchn_but = new QPushButton("Add Frame");
@@ -149,7 +149,7 @@ void VkSuppressionsDialog::setupLayout()
    hLayout->setMargin(0);
    hLayout->addWidget( cchn_but );
    hLayout->addStretch(10);
-   
+
    // ------------------------------------------------------------
    // layout
    int i = 0;
@@ -158,7 +158,7 @@ void VkSuppressionsDialog::setupLayout()
    gridLayout->addWidget( name_le,  i++, 1 );
 
    gridLayout->addWidget( VkOptionsPage::sep( layoutWidget ), i++, 0, 1, 2 );
-   
+
    gridLayout->addWidget( tool_lbl, i,   0, Qt::AlignRight );
    gridLayout->addWidget( tool_cmb, i++, 1 );
    gridLayout->addWidget( type_lbl, i,   0, Qt::AlignRight );
@@ -176,7 +176,7 @@ void VkSuppressionsDialog::setupLayout()
    QScrollArea* scroll = new QScrollArea( this );
    scroll->setObjectName( QString::fromUtf8( "scroll" ) );
    topVLayout->addWidget( scroll, 1 );
-         
+
    callChainLayout = new QVBoxLayout( scroll );
    callChainLayout->setObjectName( QString::fromUtf8( "callChainLayout" ) );
    callChainLayout->setMargin(5);
@@ -186,7 +186,7 @@ void VkSuppressionsDialog::setupLayout()
    QWidget* callChainWidget = new QWidget( scroll );
    callChainWidget->setObjectName( QString::fromUtf8( "callChainWidget" ) );
    callChainWidget->setLayout( callChainLayout );
-         
+
    scroll->setWidget( callChainWidget );
    scroll->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
    scroll->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
@@ -207,7 +207,7 @@ void VkSuppressionsDialog::setupLayout()
    callChainLayout->addStretch( 1 );
 
    // ------------------------------------------------------------
-   // Standard buttons: Ok, Cancel   
+   // Standard buttons: Ok, Cancel
    QDialogButtonBox* buttbox = new QDialogButtonBox();
    buttbox->setObjectName( QString::fromUtf8( "buttbox" ) );
    buttbox->setOrientation( Qt::Horizontal );
@@ -228,11 +228,11 @@ void VkSuppressionsDialog::addNewSuppFrame()
       vkPrintErr("Maximum allowed number of frames reached.");
       return;
    }
-   
+
    // add new frame just above our 'add frame' button
    SuppFrame* frm = new SuppFrame( false );
    suppFrames.append( frm );
-   // last widget in callchain is a 'stretch': insert before that. 
+   // last widget in callchain is a 'stretch': insert before that.
    callChainLayout->insertWidget( callChainLayout->count()-1, frm );
    connect( frm, SIGNAL(removeFrame(SuppFrame*)),
            this, SLOT(removeSuppFrame(SuppFrame*)) );
@@ -281,10 +281,10 @@ void VkSuppressionsDialog::setSupp( const Suppression& supp )
    for (int i=0; i<frames.count(); i++) {
       // new widgets for new frames, apart from first
       if ( i>0) addNewSuppFrame();
-      
+
       QStringList frame = frames.at(i).split(":");
       vk_assert( frame.count() == 2 );
-      
+
       QComboBox* cmb = suppFrames[i]->frame_cmb;
       cmb->setCurrentIndex( cmb->findText( frame[0], Qt::MatchExactly ) );
       QLineEdit* le = suppFrames[i]->frame_le;
@@ -302,7 +302,7 @@ const Suppression VkSuppressionsDialog::getUpdatedSupp()
 
    // Kind
    supp.setKind( tool_cmb->currentText() + ":" + type_cmb->currentText() );
-   
+
    // Kaux
    if ( kaux_le->isEnabled() && !kaux_le->text().isEmpty() )
       supp.setKindAux( kaux_le->text() );
@@ -316,6 +316,6 @@ const Suppression VkSuppressionsDialog::getUpdatedSupp()
       if ( !data.isEmpty() )
          supp.addFrame(  type + ":" + data );
    }
-   
+
    return supp;
 }

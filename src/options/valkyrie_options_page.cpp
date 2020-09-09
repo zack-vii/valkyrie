@@ -56,32 +56,32 @@ void ValkyrieOptionsPage::setupOptions()
    group1->setObjectName( QString::fromUtf8( "ValkyrieOptionsPage_group1" ) );
    pageTopVLayout->addWidget( group1 );
    pageTopVLayout->addStretch( 1 );
-   
+
    ContextHelp::addHelp( group1, urlValkyrie::optsPage );
-   
+
    // Note: not using opt_widget->hlayout()'s as button width won't match qlabel width.
    QGridLayout* grid = new QGridLayout( group1 );
    grid->setColumnStretch( 0, 0 );
    grid->setColumnStretch( 1, 1 );
    grid->setColumnStretch( 2, 1 );
    grid->setColumnStretch( 3, 1 );
-   
+
    int i = 0;
    grid->setRowMinimumHeight( i++, lineHeight / 2 ); // blank row
-   
+
    // ------------------------------------------------------------
    // target setup - options
    insertOptionWidget( VALKYRIE::BINARY, group1, false );  // ledit + button
    LeWidget* binLedit = (( LeWidget* )m_itemList[VALKYRIE::BINARY] );
    binLedit->addButton( group1, this, SLOT( getBinary() ) );
-   
+
    insertOptionWidget( VALKYRIE::BIN_FLAGS, group1, true );  // ledit
    LeWidget* binFlgsLedit = (( LeWidget* )m_itemList[VALKYRIE::BIN_FLAGS] );
-   
+
    insertOptionWidget( VALKYRIE::WORKING_DIR, group1, false );  // line edit + button
    LeWidget* dirWorking = (( LeWidget* )m_itemList[VALKYRIE::WORKING_DIR] );
    dirWorking->addButton( group1, this, SLOT( getWorkingDir() ) );
-   
+
    // target setup - layout
    grid->addWidget( binLedit->button(),     i, 0 );
    grid->addWidget( binLedit->widget(),     i++, 1, 1, 3 );
@@ -89,10 +89,10 @@ void ValkyrieOptionsPage::setupOptions()
    grid->addWidget( binFlgsLedit->widget(), i++, 1, 1, 3 );
    grid->addWidget( dirWorking->button(),   i, 0 );
    grid->addWidget( dirWorking->widget(),   i++, 1, 1, 3 );
-   
+
    grid->addWidget( sep( group1 ), i++, 0, 1, 4 );
-   
-   
+
+
    // ------------------------------------------------------------
    // general prefs - options
    insertOptionWidget( VALKYRIE::SRC_EDITOR, group1, false );  // ledit + button
@@ -100,58 +100,58 @@ void ValkyrieOptionsPage::setupOptions()
    editLedit->addButton( group1, this, SLOT( getEditor() ) );
 
    insertOptionWidget( VALKYRIE::SRC_LINES, group1, true );    // intspin
-   
+
    insertOptionWidget( VALKYRIE::BROWSER, group1, false );  // line edit
    LeWidget* brwsrLedit = (( LeWidget* )m_itemList[VALKYRIE::BROWSER] );
    brwsrLedit->addButton( group1, this, SLOT( getBrowser() ) );
-   
+
    insertOptionWidget( VALKYRIE::DFLT_LOGDIR, group1, false );  // line edit + button
    LeWidget* dirLogSave = (( LeWidget* )m_itemList[VALKYRIE::DFLT_LOGDIR] );
    dirLogSave->addButton( group1, this, SLOT( getDfltLogDir() ) );
-   
+
    insertOptionWidget( VALKYRIE::VG_EXEC, group1, false );  // ledit + button
    LeWidget* vgbinLedit = (( LeWidget* )m_itemList[VALKYRIE::VG_EXEC] );
    vgbinLedit->addButton( group1, this, SLOT( getVgExec() ) );
-   
+
    // general prefs - layout
    grid->addWidget( editLedit->button(), i, 0 );
    grid->addWidget( editLedit->widget(), i++, 1, 1, 3 );
    grid->addLayout( m_itemList[VALKYRIE::SRC_LINES]->hlayout(),  i++, 0, 1, 4 );
-   
+
    grid->addWidget( brwsrLedit->button(), i, 0 );
    grid->addWidget( brwsrLedit->widget(), i++, 1, 1, 3 );
    grid->addWidget( dirLogSave->button(), i, 0 );
    grid->addWidget( dirLogSave->widget(), i++, 1, 1, 3 );
    grid->addWidget( vgbinLedit->button(), i, 0 );
    grid->addWidget( vgbinLedit->widget(), i++, 1, 1, 3 );
-   
+
    grid->addWidget( sep( group1 ), i++, 0, 1, 4 );
-   
-   
+
+
    // ------------------------------------------------------------
    // look 'n feel - options
    insertOptionWidget( VALKYRIE::TOOLTIP, group1, false );  // checkbox
    insertOptionWidget( VALKYRIE::ICONTXT, group1, false );  // checkbox
    insertOptionWidget( VALKYRIE::PALETTE, group1, false );  // checkbox
-   
+
    insertOptionWidget( VALKYRIE::FNT_GEN_SYS, group1, false );  // checkbox
    LeWidget* fontGenSysLedit = (( LeWidget* )m_itemList[VALKYRIE::FNT_GEN_SYS] );
    insertOptionWidget( VALKYRIE::FNT_GEN_USR, group1, false );  // line edit
    LeWidget* fontGenLedit = (( LeWidget* )m_itemList[VALKYRIE::FNT_GEN_USR] );
    fontGenLedit->addButton( group1, this, SLOT( chooseGenFont() ) );
    fontGenLedit->setReadOnly( true );     // don't allow direct editing
-   
+
    // start up in correct state
    bool use_sys_font = vkCfgProj->value( "valkyrie/font-gen-sys" ).toBool();
    fontGenLedit->setDisabled( use_sys_font );
    connect( fontGenSysLedit, SIGNAL( changed( bool ) ),
             fontGenLedit, SLOT( setDisabled( bool ) ) );
-            
+
    insertOptionWidget( VALKYRIE::FNT_TOOL_USR, group1, false );  // line edit
    LeWidget* fontToolLedit = (( LeWidget* )m_itemList[VALKYRIE::FNT_TOOL_USR] );
    fontToolLedit->addButton( group1, this, SLOT( chooseToolFont() ) );
    fontToolLedit->setReadOnly( true );     // don't allow direct editing
-   
+
    // look 'n feel - layout
    grid->addWidget( m_itemList[VALKYRIE::TOOLTIP]->widget(), i++, 0, 1, 2 );
    grid->addWidget( m_itemList[VALKYRIE::ICONTXT]->widget(), i++, 0, 1, 2 );
@@ -161,7 +161,7 @@ void ValkyrieOptionsPage::setupOptions()
    grid->addWidget( fontGenLedit->widget(),    i++, 1, 1, 3 );
    grid->addWidget( fontToolLedit->button(),   i, 0 );
    grid->addWidget( fontToolLedit->widget(),   i++, 1, 1, 3 );
-   
+
    vk_assert( m_itemList.count() <= VALKYRIE::NUM_OPTS );
 
 
@@ -189,12 +189,12 @@ void ValkyrieOptionsPage::setupOptions()
 void ValkyrieOptionsPage::chooseGenFont()
 {
    LeWidget* fontLedit = (( LeWidget* )m_itemList[VALKYRIE::FNT_GEN_USR] );
-   
+
    QFont afont;
    afont.fromString( fontLedit->currValue() );
    bool ok;
    QFont font = QFontDialog::getFont( &ok, afont, this, "Select General Font" );
-   
+
    if ( ok ) {
       fontLedit->setValue( font.toString() );
    }
@@ -207,12 +207,12 @@ void ValkyrieOptionsPage::chooseGenFont()
 void ValkyrieOptionsPage::chooseToolFont()
 {
    LeWidget* fontLedit = (( LeWidget* )m_itemList[VALKYRIE::FNT_TOOL_USR] );
-   
+
    QFont afont;
    afont.fromString( fontLedit->currValue() );
    bool ok;
    QFont font = QFontDialog::getFont( &ok, afont, this, "Select Tool Font" );
-   
+
    if ( ok ) {
       fontLedit->setValue( font.toString() );
    }
@@ -228,9 +228,9 @@ void ValkyrieOptionsPage::getEditor()
    QString ed_curr = m_itemList[VALKYRIE::SRC_EDITOR]->currValue();
    if ( !ed_curr.isEmpty() )
       ed_curr = ed_curr.split( " ", QString::SkipEmptyParts ).first();
-   
+
    QString ed_new = vkDlgGetFile( this, ed_curr );
-   
+
    if ( !ed_new.isEmpty() ) { // user might have clicked Cancel
       (( LeWidget* )m_itemList[VALKYRIE::SRC_EDITOR] )->setValue( ed_new );
       // update triggers checkOption()
@@ -246,7 +246,7 @@ void ValkyrieOptionsPage::getBinary()
    QString bin_curr = m_itemList[VALKYRIE::BINARY]->currValue();
 
    QString bin_new = vkDlgGetFile( this, bin_curr );
-   
+
    if ( !bin_new.isEmpty() ) {   // user might have clicked Cancel
       (( LeWidget* )m_itemList[VALKYRIE::BINARY] )->setValue( bin_new );
       // update triggers checkOption()
@@ -278,7 +278,7 @@ void ValkyrieOptionsPage::getVgExec()
    QString vg_curr = m_itemList[VALKYRIE::VG_EXEC]->currValue();
 
    QString vg_new = vkDlgGetFile( this, vg_curr );
-                                    
+
    if ( !vg_new.isEmpty() ) { // user might have clicked Cancel
       (( LeWidget* )m_itemList[VALKYRIE::VG_EXEC] )->setValue( vg_new );
       // update triggers checkOption()
@@ -294,7 +294,7 @@ void ValkyrieOptionsPage::getDfltLogDir()
    QString dir_curr = m_itemList[VALKYRIE::DFLT_LOGDIR]->currValue();
 
    QString dir_new = vkDlgGetDir( this, dir_curr );
-   
+
    if ( !dir_new.isEmpty() ) { // user might have clicked Cancel
       (( LeWidget* )m_itemList[VALKYRIE::DFLT_LOGDIR] )->setValue( dir_new );
       // update triggers checkOption()
@@ -309,7 +309,7 @@ void ValkyrieOptionsPage::getWorkingDir()
    QString dir_curr = m_itemList[VALKYRIE::WORKING_DIR]->currValue();
 
    QString dir_new = vkDlgGetDir( this, dir_curr );
-      
+
    if ( !dir_new.isEmpty() ) { // user might have clicked Cancel
       (( LeWidget* )m_itemList[VALKYRIE::WORKING_DIR] )->setValue( dir_new );
       // update triggers checkOption()

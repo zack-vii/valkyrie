@@ -40,10 +40,10 @@ signals:
 
 private:
    SuppFrame();
-   
+
 private slots:
    void buttClicked();
-   
+
 public:
    QComboBox* frame_cmb;
    QLineEdit* frame_le;
@@ -61,7 +61,7 @@ public:
 
    void setSupp( const Suppression& supp );
    const Suppression getUpdatedSupp();
-   
+
 private:
    void setupLayout();
 

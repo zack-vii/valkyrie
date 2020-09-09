@@ -37,17 +37,17 @@ class MemcheckView : public ToolView
 public:
    MemcheckView( QWidget* parent );
    ~MemcheckView();
-   
+
    VgLogView* createVgLogView();
-   
+
 public slots:
    virtual void setState( bool run );
-   
+
 private:
    void setupLayout();
    void setupActions();
    void setupToolBar();
-   
+
 private slots:
    void opencloseAllItems();
    void opencloseOneItem();
@@ -65,10 +65,10 @@ private:
    QAction* act_OpenLog;
    QAction* act_SaveLog;
    QAction* act_enableFilter;
-   
+
    QTreeWidget* treeView;
    VgLogView*   logview;
-   
+
    LogViewFilterMC* logviewFilter;
 };
 

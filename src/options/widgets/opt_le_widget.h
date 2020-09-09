@@ -38,14 +38,14 @@ class LeWidget : public OptionWidget
 public:
    LeWidget( QWidget* parent, VkOption* vkopt, bool mklabel );
    ~LeWidget();
-   
+
    void addButton( QWidget* parent, const QObject* receiver,
                    const char* slot, QString txt = QString::null,
                    bool icon = false );
    void setReadOnly( bool );
    QPushButton* button();
    QHBoxLayout* hlayout();
-   
+
 public slots:
    void setDisabled( bool disable );
 

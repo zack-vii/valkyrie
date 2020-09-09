@@ -38,7 +38,7 @@ public:
 public slots:
     void showHideItem( VgOutputItem* item );
     void enableFilter( bool enable );
-    
+
 private slots:
     void setupFilter( int idx );
     void updateView();
@@ -47,7 +47,7 @@ private slots:
 
 private:
     QTreeWidget* m_view;        // hold on to this to rescan entire tree.
-    
+
     QPushButton* butt_refresh;  // refresh the filter after editing
     QComboBox* combo_xmltag;    // combobox of xmltags to filter on
     QStackedWidget* cmpWidgStack;    // hold the different compare comboboxes
@@ -58,7 +58,7 @@ private:
     enum CmpFunType { FUN_EQL, FUN_NEQL, FUN_LSTHN, FUN_GRTHN, FUN_CONT,
                       FUN_NCONT, FUN_STRT, FUN_NSTRT, FUN_END, FUN_NEND };
     QMap<XmlTagType, CmpType> map_xmltag_cmptype;
-    
+
     bool xmlCompare( VgOutputItem* errItem, const QString& tag,
                      const QString& str_flt, CmpFunType cmpFun, CmpType cmp_type );
     bool compare_strings( const QStringList& list_xml, const QString& str_flt, CmpFunType cmpfuntype );

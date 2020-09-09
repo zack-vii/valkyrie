@@ -52,14 +52,14 @@ typedef QList<ToolObject*> ToolObjList;
 class ToolObject : public VkObject
 {
    Q_OBJECT
-   
+
 public:
    ToolObject( const QString& toolname, VGTOOL::ToolID toolId );
    ~ToolObject();
-   
+
    ToolView* createView( QWidget* parent );
    ToolView* view();
-   
+
    bool start( VGTOOL::ToolProcessId procId,
                QStringList vgflags, QString logfile );
 //   void stop();
@@ -67,7 +67,7 @@ public:
    bool isRunning();
 
    virtual VkOptionsPage* createVkOptionsPage() = 0;
-   
+
    // returns a list of non-default flags to pass to valgrind
    virtual QStringList getVgFlags();
 
@@ -77,7 +77,7 @@ public:
 signals:
    void running( bool );
    void message( QString );
-   
+
 protected:
    void setProcessId( int procId );
    int  getProcessId();
@@ -103,7 +103,7 @@ public:
    VGTOOL::ToolID getToolId() {
       return toolId;
    }
-   
+
 protected:
    ToolView*  toolView;  // the toolview window
 
@@ -113,7 +113,7 @@ private:
 
    // tools need to add own processId's: classic enum extend problem :-(
    int processId;
-   
+
    VGTOOL::ToolID toolId;  // which tool are we.
 
    VgLogReader* vgreader;

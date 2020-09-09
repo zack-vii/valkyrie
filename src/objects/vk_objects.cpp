@@ -68,10 +68,10 @@ OptionHash& VkObject::getOptions()
 void VkObject::updateConfig( int optid, QString& argval )
 {
    vk_assert( optid >= 0 && optid < VALKYRIE::NUM_OPTS );
-   
+
    VkOption* opt = getOption( optid );
    vk_assert( opt != NULL );
-   
+
    opt->updateConfig( argval );
 }
 

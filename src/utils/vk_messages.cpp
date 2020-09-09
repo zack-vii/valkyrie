@@ -52,7 +52,7 @@ int vkQuery( QWidget* w, int nbutts, QString hdr,
    va_start( ap, msg );
    vsnprintf( buf, VK_BUFLEN, msg, ap );
    va_end( ap );
-   
+
    // setup and show dialog box
    MsgBox mb( w, MsgBox::Query, buf, hdr, nbutts );
    QStringList names;
@@ -75,7 +75,7 @@ int vkQuery( QWidget* w, QString hdr,
    va_start( ap, msg );
    vsnprintf( buf, VK_BUFLEN, msg, ap );
    va_end( ap );
-   
+
    // setup and show dialog box
    QStringList buttonLabels( labels.split( ";", QString::SkipEmptyParts ) );
    int nbutts = buttonLabels.count();
@@ -97,7 +97,7 @@ void vkInfo( QWidget* w, QString hdr, const char* msg, ... )
    va_start( ap, msg );
    vsnprintf( buf, VK_BUFLEN, msg, ap );
    va_end( ap );
-   
+
    // setup and show dialog box
    MsgBox mb( w, MsgBox::Info, buf, hdr, 1 );
    mb.setButtonTexts( QStringList( "O&K" ) );
@@ -117,7 +117,7 @@ void vkError( QWidget* w, QString hdr, const char* msg, ... )
    va_start( ap, msg );
    vsnprintf( buf, VK_BUFLEN, msg, ap );
    va_end( ap );
-   
+
    // setup and show dialog box
    MsgBox mb( w, MsgBox::Error, buf, hdr );
    mb.setButtonTexts( QStringList( "O&K" ) );
@@ -137,20 +137,20 @@ MsgBox::MsgBox( QWidget* parent, Icon icon, QString msg,
    : QDialog( parent )
 {
    setObjectName( QString::fromUtf8( "msgbox" ) );
-   
+
    msg = "<p>" + msg + "</p>";
-   
+
    if ( !hdr.isEmpty() ) {
       msg = "<b>" + hdr + "</b>" + msg;
    }
-   
+
    numButtons = num_buttons;
    int defButton  = 0;
    button[0]  = MsgBox::vkYes;
-   
+
    QString caption;
    QPixmap pm_file;
-   
+
    switch ( icon ) {
    case Query:
       caption = "Query";
@@ -168,9 +168,9 @@ MsgBox::MsgBox( QWidget* parent, Icon icon, QString msg,
    default:
       break;
    }
-   
+
    setWindowTitle( caption );
-   
+
    switch ( numButtons ) {
    case 1:        // ok button
       escButton = -1;
@@ -185,47 +185,47 @@ MsgBox::MsgBox( QWidget* parent, Icon icon, QString msg,
       escButton = 2;
       break;
    }
-   
-   
+
+
    QVBoxLayout* vLayout = new QVBoxLayout( this );
    vLayout->setObjectName( QString::fromUtf8( "vlayout" ) );
    vLayout->setAlignment( Qt::AlignTop );
-   
+
    QHBoxLayout* hLayout = new QHBoxLayout();
    hLayout->setObjectName( QString::fromUtf8( "hlayout" ) );
    hLayout->setSpacing( 14 );
    vLayout->addLayout( hLayout );
-   
+
    iconLabel = new QLabel( this );
    iconLabel->setObjectName( "icon_lbl" );
    iconLabel->setAlignment( Qt::AlignTop );
    iconLabel->setPixmap( pm_file );
    hLayout->addWidget( iconLabel );
-   
+
    msgLabel = new QLabel( this );  // default: left aligned, tabs expanded.
    msgLabel->setObjectName( "msg_lbl" );
    msgLabel->setText( msg );
    hLayout->addWidget( msgLabel );
    hLayout->addStretch( 1 );
-   
-   
+
+
    QHBoxLayout* hLayoutButtons = new QHBoxLayout();
    hLayoutButtons->setObjectName( QString::fromUtf8( "hLayoutButtons" ) );
    hLayoutButtons->addStretch( 1 );
    vLayout->addSpacing( 18 );
    vLayout->addStretch( 1 );
    vLayout->addLayout( hLayoutButtons );
-   
+
    for ( int i = 0; i < numButtons; i++ ) {
       pb[i] = new QPushButton( this );
       pb[i]->setObjectName( "button" + QString::number( i + 1 ) );
       hLayoutButtons->addWidget( pb[i] );
-      
+
       if ( defButton == i ) {
          pb[i]->setDefault( true );
          pb[i]->setFocus();
       }
-      
+
       pb[i]->setAutoDefault( true );
       connect( pb[i], SIGNAL( clicked() ),
                this,  SLOT( pbClicked() ) );
@@ -251,14 +251,14 @@ void MsgBox::pbClicked()
 {
    int result = 0;
    const QObject* s = sender();
-   
+
    for ( int i = 0; i < numButtons; i++ ) {
       if ( pb[i] == s ) {
          result = button[i];
          break;
       }
    }
-   
+
    done( result );
 }
 
@@ -273,7 +273,7 @@ void MsgBox::keyPressEvent( QKeyEvent* e )
          return;
       }
    }
-   
+
    QDialog::keyPressEvent( e );
 }
 
@@ -281,7 +281,7 @@ void MsgBox::keyPressEvent( QKeyEvent* e )
 void MsgBox::closeEvent( QCloseEvent* ce )
 {
    QDialog::closeEvent( ce );
-   
+
    if ( escButton != -1 ) {
       setResult( button[escButton] );
    }

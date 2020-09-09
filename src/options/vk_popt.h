@@ -59,34 +59,34 @@ extern "C" {
       - returns initialized popt context */
    vkPoptContext vkPoptGetContext( int argc, const char** argv,
                                    const vkPoptOption* options );
-                                   
+
    /* get next option opt_ret
       returns 0 on success, PERROR_* on error */
    int vkPoptGetNextOpt( vkPoptContext con, char* arg_val,
                          const vkPoptOption** opt/*OUT*/,
                          bool& done_vk_flags/*OUT*/ );
-                         
+
    /* return current option's argument,
       or NULL if no more options are available */
    const char* vkPoptGetArg( vkPoptContext con );
-   
+
    /* return remaining argument array, terminated with NULL */
    const char** vkPoptGetArgs( vkPoptContext con );
-   
+
    /* peek at current option's argument */
    const char* vkPoptPeekArg( vkPoptContext con );
-   
+
    /* return the offending option which caused the most recent error */
    const char* vkPoptBadOption( vkPoptContext con );
-   
+
    /* destroy context. return NULL always */
    vkPoptContext vkPoptFreeContext( vkPoptContext con );
-   
+
    /* print detailed description of options.
       fp == ouput file handle */
    void vkPoptPrintHelp( vkPoptContext con, FILE* fp,
                          const char* tableName );
-                         
+
 #ifdef  __cplusplus
 }
 #endif
@@ -99,7 +99,7 @@ static inline void* _free( const void* p )
    if ( p != NULL ) {
       free(( void* )p );
    }
-   
+
    return NULL;
 }
 

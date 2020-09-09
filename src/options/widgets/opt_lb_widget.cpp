@@ -63,18 +63,18 @@ LbWidget::LbWidget( QWidget* parent, VkOption* vkopt, bool mklabel )
    : OptionWidget( parent, vkopt, mklabel )
 {
    this->setObjectName( "lb_widget" );
-   
+
    m_lbox = new MyListWidget( parent );
    m_lbox->setObjectName( QString::fromUtf8( "list_box" ) );
    m_widg = m_lbox;
    m_lbox->setSelectionMode( QAbstractItemView::SingleSelection );
    connect( m_lbox, SIGNAL(rowsChanged(bool,int)),
            this, SLOT(updateValueFromView(bool, int)));
-   
+
    m_sep  = VkCfg::sepChar();
-   
+
    update( m_currentValue );
-            
+
    // not added if the url is empty
    ContextHelp::addHelp( m_widg, m_opt->urlAddress );
 }
@@ -103,7 +103,7 @@ void LbWidget::update( const QString& txt )
       m_lbox->addItem( sfiles[i] );
    }
 
-   // auto-select the top row   
+   // auto-select the top row
    m_lbox->setCurrentRow( 0 );
 }
 

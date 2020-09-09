@@ -36,9 +36,9 @@ class CbWidget : public OptionWidget
 public:
    CbWidget( QWidget* parent, VkOption* vkopt, bool mklabel );
    ~CbWidget();
-   
+
    QHBoxLayout* hlayout();
-   
+
 private slots:
    void update( const QString& txt );
 

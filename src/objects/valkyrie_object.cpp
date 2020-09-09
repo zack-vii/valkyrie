@@ -45,7 +45,7 @@ Valkyrie::Valkyrie()
    : VkObject( "valkyrie" )
 {
    setupOptions();
-   
+
    // init valgrind
    m_valgrind = new Valgrind();
    m_startToolProcess = VGTOOL::PROC_NONE;
@@ -61,7 +61,7 @@ Valkyrie:: ~Valkyrie()
       delete m_valgrind;
       m_valgrind = 0;
    }
-   
+
 }
 
 
@@ -84,7 +84,7 @@ void Valkyrie::setupOptions()
       VkOPT::ARG_NONE,
       VkOPT::WDG_NONE
    );
-   
+
    options.addOpt(
       VALKYRIE::VGHELP,
       this->objectName(),
@@ -99,7 +99,7 @@ void Valkyrie::setupOptions()
       VkOPT::ARG_NONE,
       VkOPT::WDG_NONE
    );
-   
+
    options.addOpt(
       VALKYRIE::OPT_VERSION,
       this->objectName(),
@@ -129,7 +129,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALKYRIE::PALETTE,
       this->objectName(),
@@ -144,7 +144,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALKYRIE::ICONTXT,
       this->objectName(),
@@ -159,7 +159,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALKYRIE::FNT_GEN_SYS,
       this->objectName(),
@@ -174,7 +174,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_CHECK
    );
-   
+
    options.addOpt(
       VALKYRIE::FNT_GEN_USR,
       this->objectName(),
@@ -189,7 +189,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::FNT_TOOL_USR,
       this->objectName(),
@@ -204,7 +204,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::SRC_EDITOR,
       this->objectName(),
@@ -219,7 +219,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::SRC_LINES,
       this->objectName(),
@@ -234,7 +234,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_SPINBOX
    );
-   
+
    options.addOpt(
       VALKYRIE::BROWSER,
       this->objectName(),
@@ -249,7 +249,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    QString projfile = "<project." + VkCfg::filetype() + ">";
    options.addOpt(
       VALKYRIE::PROJ_FILE,
@@ -265,8 +265,8 @@ void Valkyrie::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_NONE
    );
-   
-   
+
+
    options.addOpt(
       VALKYRIE::WORKING_DIR,
       this->objectName(),
@@ -297,7 +297,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::BINARY,
       this->objectName(),
@@ -312,7 +312,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::BIN_FLAGS,
       this->objectName(),
@@ -327,7 +327,7 @@ void Valkyrie::setupOptions()
       VkOPT::NOT_POPT,
       VkOPT::WDG_LEDIT
    );
-   
+
    options.addOpt(
       VALKYRIE::VIEW_LOG,
       this->objectName(),
@@ -342,7 +342,7 @@ void Valkyrie::setupOptions()
       VkOPT::ARG_STRING,
       VkOPT::WDG_NONE
    );
-   
+
    options.addOpt(
       VALKYRIE::DFLT_LOGDIR,
       this->objectName(),
@@ -367,16 +367,16 @@ void Valkyrie::setupOptions()
 int Valkyrie::checkOptArg( QString optGrp, int optid, QString& argval )
 {
    VkObjectList objList = this->vkObjList();
-   
+
    for ( int i = 0; i < objList.size(); ++i ) {
       VkObject* obj = objList.at( i );
-      
+
       // find the option owner, call checkOptArg for that owner.
       if ( obj->objectName() == optGrp ) {
          return obj->checkOptArg( optid, argval );
       }
    }
-   
+
    return PERROR_BADOPT;
 }
 
@@ -389,10 +389,10 @@ int Valkyrie::checkOptArg( QString optGrp, int optid, QString& argval )
 void Valkyrie::updateConfig( QString optGrp, int optid, QString& argval )
 {
    VkObjectList objList = this->vkObjList();
-   
+
    for ( int i = 0; i < objList.size(); ++i ) {
       VkObject* obj = objList.at( i );
-      
+
       // find the option owner, call checkOptArg for that owner.
       if ( obj->objectName() == optGrp ) {
          return obj->updateConfig( optid, argval );
@@ -420,7 +420,7 @@ void Valkyrie::updateConfig( int optid, QString& argval )
          vkCfgProj->openProject( proj_fname );
       }
    }
-   
+
    VkObject::updateConfig( optid, argval );
 }
 
@@ -432,10 +432,10 @@ void Valkyrie::updateConfig( int optid, QString& argval )
 int Valkyrie::checkOptArg( int optid, QString& argval )
 {
    vk_assert( optid >= 0 && optid < VALKYRIE::NUM_OPTS );
-   
+
    VkOption* opt = getOption( optid );
    int errval = PARSED_OK;
-   
+
    switch ( optid ) {
 
    // the following options are _only_ set via the gui, and are either
@@ -451,13 +451,13 @@ int Valkyrie::checkOptArg( int optid, QString& argval )
          vk_assert( opt->argType == VkOPT::NOT_POPT );
          return errval;
       } break;
-      
+
    // dir options: check for RWX permissions
    case VALKYRIE::DFLT_LOGDIR:
    case VALKYRIE::WORKING_DIR: {
          ( void ) dirCheck( &errval, argval, true, true, true );
       } break;
-   
+
    // browser executable
    case VALKYRIE::BROWSER: {
          if ( argval.isEmpty() ) {
@@ -514,7 +514,7 @@ int Valkyrie::checkOptArg( int optid, QString& argval )
          }
 
       } break;
-   
+
    case VALKYRIE::VG_EXEC: {
          // see if we have a valgrind exec with at least X permissions:
          argval = fileCheck( &errval, argval, false, false, true );
@@ -579,17 +579,17 @@ int Valkyrie::checkOptArg( int optid, QString& argval )
    case VALKYRIE::BIN_FLAGS:
       // Can't (easily) test this.
       break;
-      
+
       // ignore these opts
    case VALKYRIE::HELP:
    case VALKYRIE::VGHELP:
    case VALKYRIE::OPT_VERSION:
       break;
-      
+
    default:
       vk_assert_never_reached();
    }
-   
+
    return errval;
 }
 
@@ -604,12 +604,12 @@ VkOption* Valkyrie::findOption( QString& optKey )
    vk_assert( parts.count() == 2 );
    QString optGrp = parts.at( 0 );
    QString optFlag = parts.at( 1 );
-   
+
    VkObjectList objList = this->vkObjList();
-   
+
    for ( int i = 0; i < objList.size(); ++i ) {
       VkObject* obj = objList.at( i );
-      
+
       if ( obj->objectName() == optGrp ) {
          foreach( VkOption * opt, obj->getOptions() ) {
             if ( opt->longFlag == optFlag ) {
@@ -618,7 +618,7 @@ VkOption* Valkyrie::findOption( QString& optKey )
          }
       }
    }
-   
+
    return NULL;
 }
 
@@ -630,15 +630,15 @@ VkOption* Valkyrie::findOption( QString& optKey )
 VkOption* Valkyrie::findOption( QString& optGrp, int optid )
 {
    VkObjectList objList = this->vkObjList();
-   
+
    for ( int i = 0; i < objList.size(); ++i ) {
       VkObject* obj = objList.at( i );
-      
+
       if ( obj->objectName() == optGrp ) {
          return obj->getOption( optid );
       }
    }
-   
+
    return NULL;
 }
 #endif
@@ -651,12 +651,12 @@ VkOption* Valkyrie::findOption( QString& optGrp, int optid )
 const VkObjectList Valkyrie::vkObjList()
 {
    VkObjectList vkObjList;
-   
+
    vkObjList.append( this );
    vkObjList.append( valgrind() );
    foreach( ToolObject * tool, valgrind()->getToolObjList() )
    vkObjList.append( tool );
-   
+
    return vkObjList;
 }
 
@@ -675,7 +675,7 @@ void Valkyrie::stopTool( VGTOOL::ToolID tId )
    vk_assert( tId != VGTOOL::ID_NULL );
    ToolObject* tool = valgrind()->getToolObj( tId );
    vk_assert( tool != 0 );
-   
+
    tool->stop();
    vk_assert( !tool->isRunning() );
 }
@@ -702,7 +702,7 @@ bool Valkyrie::runTool( VGTOOL::ToolID tId, VGTOOL::ToolProcessId procId )
    vk_assert( tId != VGTOOL::ID_NULL );
    ToolObject* activeTool = valgrind()->getToolObj( tId );
    vk_assert( activeTool != 0 );
-   
+
    QStringList vg_flags = getVgFlags( tId );
 
    // update the flags with the necessary options: xml etc.
@@ -725,17 +725,17 @@ QStringList Valkyrie::getVgFlags( VGTOOL::ToolID tId )
    vk_assert( tId != VGTOOL::ID_NULL );
    ToolObject* tool = valgrind()->getToolObj( tId );
    vk_assert( tool != 0 );
-   
+
    // if we don't find it in config, let's hope it's in $PATH
    VkOption* opt = options.getOption( VALKYRIE::VG_EXEC );
    QString vg_exec = vkCfgProj->value( opt->configKey(), "valgrind" ).toString();
-   
+
    QStringList vg_flags;
    vg_flags << vg_exec;                          // path/to/valgrind
    vg_flags << "--tool=" + tool->objectName();   // active tool (!= valgrind()->TOOL)
    vg_flags += valgrind()->getVgFlags( tool );   // valgrind (+ tool) opts
    vg_flags += getTargetFlags();                 // valkyrie opts
-   
+
    return vg_flags;
 }
 
@@ -748,16 +748,16 @@ QStringList Valkyrie::getTargetFlags()
    QStringList modFlags;
    VkOption* opt  = options.getOption( VALKYRIE::BINARY );
    QString cfgVal = vkCfgProj->value( opt->configKey() ).toString();
-   
+
    // only add binary & bin_flags if binary present
    if ( !cfgVal.isEmpty() ) {
       modFlags << cfgVal;
-      
+
       // add any target binary flags
       opt    = options.getOption( VALKYRIE::BIN_FLAGS );
       cfgVal = vkCfgProj->value( opt->configKey() ).toString();
       modFlags += cfgVal.split( " ", QString::SkipEmptyParts );
    }
-   
+
    return modFlags;
 }

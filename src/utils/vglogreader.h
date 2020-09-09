@@ -56,7 +56,7 @@ class VgLogHandler : public QXmlDefaultHandler
 public:
    VgLogHandler( VgLogView* lv );
    ~VgLogHandler();
-   
+
    // content handler
    bool processingInstruction( const QString& target,
                                const QString& data );
@@ -70,11 +70,11 @@ public:
    bool characters( const QString& ch );
    bool startDocument();
    bool endDocument();
-   
+
    // reimplement error handlers
    bool error( const QXmlParseException& exception );
    bool fatalError( const QXmlParseException& exception );
-   
+
    /* only set if fatal error */
    QString fatalMsg() {
       return m_fatalMsg;
@@ -87,12 +87,12 @@ public:
    bool started() {
       return m_started;
    }
-   
+
 private:
    QDomDocument doc;
    VgLogView* logview;
    QDomNode node;
-   
+
    QString m_fatalMsg;
    bool m_finished;
    bool m_started;
@@ -110,14 +110,14 @@ class VgLogReader : public QXmlSimpleReader
 public:
    VgLogReader( VgLogView* lv );
    ~VgLogReader();
-   
+
    bool parse( QString filepath, bool incremental = false );
    bool parseContinue();
-   
+
    VgLogHandler* handler() {
       return vghandler;
    }
-   
+
 private:
    VgLogHandler* vghandler;
    QXmlInputSource* source;

@@ -30,7 +30,7 @@ class HelgrindOptionsPage : public VkOptionsPage
    Q_OBJECT
 public:
    HelgrindOptionsPage( VkObject* obj );
-   
+
 private:
    void setupOptions();
 };

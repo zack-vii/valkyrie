@@ -126,7 +126,7 @@ void HelgrindView::setupLayout()
 {
    QVBoxLayout* vLayout = new QVBoxLayout( this );
    vLayout->setMargin(0);
-   
+
    treeView = new QTreeWidget( this );
    treeView->setObjectName( QString::fromUtf8( "treeview_Helgrind" ) );
    treeView->setHeaderHidden( true );
@@ -487,7 +487,7 @@ void HelgrindView::opencloseAllItems()
 void HelgrindView::opencloseOneItem()
 {
    //vkDebug( "HelgrindView::opencloseOneItem():" );
-   
+
    QTreeWidgetItem* item = treeView->currentItem();
    if ( item == 0 )
       return;

@@ -36,14 +36,14 @@ class ValgrindOptionsPage : public VkOptionsPage
    Q_OBJECT
 public:
    ValgrindOptionsPage( VkObject* obj );
-   
+
    void setCurrentTab( int idx );
    void suppNewFromStr( const QString& str );
-   
+
 public slots:
    void suppNew();
    void suppEdit();
-   
+
 private slots:
    void getDbBin();
    void setSuppFileBtns();
@@ -56,16 +56,16 @@ private slots:
    void suppLoad();
    void suppEdit( QListWidgetItem* );
    void suppDelete();
-   
+
 private:
    void setupOptions();
-   
+
 private:
    QTabWidget* tabWidget;
    QGroupBox* group1;
    QListWidget* lwSupps;
    QPushButton* btn_suppfile_up;
-   QPushButton* btn_suppfile_dwn; 
+   QPushButton* btn_suppfile_dwn;
    QPushButton* btn_suppfile_new;
    QPushButton* btn_suppfile_add;
    QPushButton* btn_suppfile_rmv;

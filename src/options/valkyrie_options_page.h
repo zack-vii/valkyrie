@@ -32,9 +32,9 @@ class ValkyrieOptionsPage : public VkOptionsPage
    Q_OBJECT
 public:
    ValkyrieOptionsPage( VkObject* obj );
-   
+
    bool saveToProjectCfg();
-   
+
 private slots:
    void chooseGenFont();
    void chooseToolFont();
@@ -44,10 +44,10 @@ private slots:
    void getDfltLogDir();
    void getWorkingDir();
    void getVgExec();
-   
+
 private:
    void setupOptions();
-   
+
 private:
    QGroupBox* group1;
 };
