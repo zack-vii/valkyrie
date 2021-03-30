@@ -23,6 +23,7 @@
 
 #include <cstdlib>                  // exit, mkstemp, free/malloc, etc
 
+#include <QtGlobal>
 #include <QDateTime>
 #include <QFile>
 #include <QFileDialog>
@@ -495,7 +496,6 @@ QString vkDlgGetFile( QWidget* parent,
 {
    // defaults
    QString filterlist = "All Files (*)";   // default filter list
-   QString filter = "";                    // default filter
    QString cfg_key_filterlist = "";        // glbl key, built from key_path
    QString cfg_key_filter = "";            // glbl key, built from key_path
    QString start_dir = start_path;
@@ -508,7 +508,8 @@ QString vkDlgGetFile( QWidget* parent,
       // try to resolve: first through given path, then via $PATH env var.
       start_dir = getFileAbsPath( start_dir );
    }
-
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+   QString filter;                    // default filter
    // setup filters
    if ( !cfg_key_path.isEmpty() ){
       // check the global cfg (derive key from key_path)
@@ -526,7 +527,8 @@ QString vkDlgGetFile( QWidget* parent,
          }
       }
    }
-
+   dlg.selectFilter( filter );
+#endif
    // Setup dialog
    QString caption = "Choose File";
    if ( mode == QFileDialog::AcceptSave )
@@ -536,7 +538,6 @@ QString vkDlgGetFile( QWidget* parent,
    dlg.setFileMode(QFileDialog::AnyFile);
    dlg.setViewMode(QFileDialog::Detail);
    dlg.setAcceptMode( mode );
-   dlg.selectFilter( filter );
 
    // Run dialog - get filename to save to: asks for overwrite confirmation
    QString fname;
@@ -546,6 +547,7 @@ QString vkDlgGetFile( QWidget* parent,
          fname = fileNames.first();
    }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
    // save chosen filter (if changed) for next time
    if ( !cfg_key_path.isEmpty() ) {
       QString filter_new = dlg.selectedNameFilter();
@@ -554,7 +556,7 @@ QString vkDlgGetFile( QWidget* parent,
          vkCfgGlbl->setValue( cfg_key_filter, filter_new );
       }
    }
-
+#endif
    return fname;
 }
 

@@ -5,7 +5,8 @@
 # qmake "PREFIX=/path/to/install/tree"
 ######################################################################
 
-
+QT += widgets
+QT += printsupport
 VK_ROOT = ..
 
 include( $${VK_ROOT}/vk_config.pri )

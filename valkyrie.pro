@@ -7,6 +7,8 @@
 
 include( vk_config.pri )
 
+QT += widgets
+QT += printsupport
 TEMPLATE = subdirs
 SUBDIRS  = src
 

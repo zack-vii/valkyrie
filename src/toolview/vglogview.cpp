@@ -26,6 +26,10 @@
 #include <QStringList>
 #include <QTextStream>
 
+#include <QtGlobal>
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+#define toUtf8 toAscii
+#endif
 
 
 // ============================================================
@@ -261,12 +265,12 @@ void TopStatusItem::updateStatus( QDomElement status )
    }
 
    // start count
-   ret = sscanf( start_time.toAscii().constData(), "%d:%d:%d:%d.%4d",
+   ret = sscanf( start_time.toUtf8().constData(), "%d:%d:%d:%d.%4d",
                  &sday, &shours, &smins, &ssecs, &smsecs );
 
    if ( ret == 5 ) {
       QString end_time = status.firstChildElement( "time" ).text();
-      ret = sscanf( end_time.toAscii().constData(), "%d:%d:%d:%d.%4d",
+      ret = sscanf( end_time.toUtf8().constData(), "%d:%d:%d:%d.%4d",
                     &eday, &ehours, &emins, &esecs, &emsecs );
 
       if ( ret == 5 ) {

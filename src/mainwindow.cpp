@@ -20,7 +20,12 @@
 
 #include <QApplication>
 #include <QColor>
+#include <QtGlobal>
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
 #include <QColorGroup>
+#else
+#include <QPalette>
+#endif
 #include <QEvent>
 #include <QFileDialog>
 #include <QGroupBox>

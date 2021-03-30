@@ -145,7 +145,10 @@ void MemcheckView::setupLayout()
    treeView->setRootIsDecorated( false );
 
    // give us a horizontal scrollbar rather than an ellipsis
+#if QT_VERSION < 0x050000
    treeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+#endif
+   treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
    treeView->header()->setStretchLastSection(false);
 
    // filter

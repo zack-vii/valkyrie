@@ -20,8 +20,12 @@
 
 #ifndef __VK_VGLOGVIEW_H
 #define __VK_VGLOGVIEW_H
-
+#include <QtGlobal>
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
 #include <QColorGroup>
+#else
+#include <QPalette>
+#endif
 #include <QDateTime>
 #include <QObject>
 #include <QPainter>
